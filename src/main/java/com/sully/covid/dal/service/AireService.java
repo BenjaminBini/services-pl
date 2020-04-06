@@ -31,10 +31,12 @@ public class AireService extends ServiceBase<AireRepository, Aire> {
         this.repository = repository;
     }
 
+    @Override
     public Page<Aire> search(Pageable pageable, String keyword) {
         return this.repository.findByNomAireContaining(keyword, pageable);
     }
 
+    @Override
     public FeatureCollection toGeoJSON() {
         FeatureCollection featureCollection = new FeatureCollection();
         for (Aire aire : this.getAll()) {
@@ -63,15 +65,5 @@ public class AireService extends ServiceBase<AireRepository, Aire> {
             featureCollection.add(feature);
         }
         return featureCollection;
-    }
-
-
-
-    public String toCSV() throws CsvDataTypeMismatchException, CsvRequiredFieldEmptyException, IOException {
-        StringWriter writer = new StringWriter();
-        StatefulBeanToCsv beanToCsv = new StatefulBeanToCsvBuilder(writer).withSeparator(';').build();
-        beanToCsv.write(this.getAll());
-        writer.close();
-        return writer.toString();
     }
 }

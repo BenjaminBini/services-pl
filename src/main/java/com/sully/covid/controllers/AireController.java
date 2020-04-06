@@ -1,8 +1,7 @@
 package com.sully.covid.controllers;
 
-import com.opencsv.bean.CsvToBean;
-import com.opencsv.bean.CsvToBeanBuilder;
 import com.sully.covid.dal.model.Aire;
+import com.sully.covid.dal.repository.AireRepository;
 import com.sully.covid.dal.service.AireService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,20 +14,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.util.List;
-
 @Controller
-public class AireController {
-
-    private final AireService aireService;
+public class AireController extends ControllerBase<Aire, AireRepository> {
 
     @Autowired
     public AireController(AireService aireService) {
-        this.aireService = aireService;
-
+        super("aire", "aires", "aire");
+        this.service = aireService;
     }
 
     @GetMapping("/aires")
@@ -38,7 +30,7 @@ public class AireController {
                         @RequestParam(defaultValue = "", required = false) String keyword,
                         @RequestParam(defaultValue = "false", required = false) String success) {
 
-        Page<Aire> aires = this.aireService.search(PageRequest.of(page, 50, Sort.Direction.fromString(dir), sort), keyword);
+        Page<Aire> aires = this.service.search(PageRequest.of(page, 20, Sort.Direction.fromString(dir), sort), keyword);
 
         long firstIndex = aires.getSize() * aires.getNumber() + 1;
         long lastIndex = aires.isLast() ? aires.getTotalElements() : firstIndex + aires.getSize() - 1;
@@ -58,81 +50,34 @@ public class AireController {
         return "aires";
     }
 
-    @GetMapping("/aire")
-    public String aire(Model model) {
-        return "aire";
+    @Override
+    @GetMapping("/aire/new")
+    public String newOne(Model model) {
+        return super.newOne(model);
     }
 
+    @Override
     @GetMapping("/aire/{id}")
-    public String aire(Model model, @PathVariable long id) {
-        Aire aire = this.aireService.get(id);
-        model.addAttribute("aire", aire);
-        return "aire";
+    public String viewOne(Model model, @PathVariable long id) {
+        return super.viewOne(model, id);
     }
 
+    @Override
     @PostMapping("/aire")
-    public String aire(Model model, @ModelAttribute Aire aire) {
-        try {
-            this.aireService.save(aire);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        model.addAttribute("aire", aire);
-        return "redirect:aire/" + aire.getId();
+    public String save(Model model, @ModelAttribute Aire aire) {
+        return super.save(model, aire);
     }
 
+    @Override
     @GetMapping("/aire/{id}/delete")
-    public RedirectView aire(@PathVariable long id, RedirectAttributes model) {
-        try {
-            this.aireService.delete(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        model.addAttribute("success", true);
-        return new RedirectView("/aires");
+    public RedirectView delete(@PathVariable long id, RedirectAttributes model) {
+        return super.delete(id, model);
     }
 
-
+    @Override
     @PostMapping("/aires/import")
-    public RedirectView importAires(@RequestParam("file") MultipartFile file, RedirectAttributes model) {
-
-        // validate file
-        if (file.isEmpty()) {
-            model.addAttribute("importMessage", "Pas de fichier");
-            model.addAttribute("success", false);
-        } else {
-
-            // parse CSV file to create a list of `User` objects
-            try (Reader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
-
-                // create csv bean reader
-                CsvToBean csvToBean = new CsvToBeanBuilder(reader)
-                        .withType(Aire.class)
-                        .withSeparator(';')
-                        .withIgnoreLeadingWhiteSpace(true)
-                        .build();
-
-                // convert `CsvToBean` object to list of users
-                List<Aire> aires = csvToBean.parse();
-
-                for (Aire aire : aires) {
-                    try {
-                        this.aireService.save(aire);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    }
-                }
-
-                // save users list on model
-                model.addAttribute("success", true);
-
-            } catch (Exception ex) {
-                model.addAttribute("importMessage", "Erreur lors de l'import");
-                model.addAttribute("success", false);
-            }
-        }
-
-        return new RedirectView("/aires");
+    public RedirectView importCSV(@RequestParam("file") MultipartFile file, RedirectAttributes model) {
+        return super.importCSV(file, model);
     }
 
 }

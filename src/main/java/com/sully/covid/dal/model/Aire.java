@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Data
 @Entity(name = "aires")
-public class Aire {
+public class Aire implements ModelBase {
 
     /**
      * Identifiant unique
