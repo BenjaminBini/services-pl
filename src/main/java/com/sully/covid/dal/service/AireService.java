@@ -13,6 +13,7 @@ import org.geojson.Feature;
 import org.geojson.FeatureCollection;
 import org.geojson.GeoJsonObject;
 import org.geojson.Point;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -23,37 +24,16 @@ import java.io.StringWriter;
 import java.util.List;
 
 @Service
-public class AireService {
-    private final AireRepository aireRepository;
+public class AireService extends ServiceBase<AireRepository, Aire> {
 
-    public AireService(AireRepository aireRepository) {
-        this.aireRepository = aireRepository;
-    }
-
-    public Page<Aire> getAll(Pageable page) {
-        return this.aireRepository.findAll(page);
+    @Autowired
+    public AireService(AireRepository repository) {
+        this.repository = repository;
     }
 
     public Page<Aire> search(Pageable pageable, String keyword) {
-        return this.aireRepository.findByNomAireContaining(keyword, pageable);
+        return this.repository.findByNomAireContaining(keyword, pageable);
     }
-
-    public List<Aire> getAll() {
-        return this.aireRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
-    }
-
-    public Aire save(Aire aire) {
-        return this.aireRepository.save(aire);
-    }
-
-    public Aire get(long id) {
-        return this.aireRepository.getOne(id);
-    }
-
-    public void delete(long id) {
-        this.aireRepository.deleteById(id);
-    }
-
 
     public FeatureCollection toGeoJSON() {
         FeatureCollection featureCollection = new FeatureCollection();
