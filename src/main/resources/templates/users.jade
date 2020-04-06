@@ -1,0 +1,64 @@
+extends layouts/layout
+
+block content
+    .flex 
+        .flex-col.flex-grow
+            .-my-2.py-2.overflow-x-auto(class="sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8")
+                .align-middle.inline-block.min-w-full.shadow.overflow-hidden.border-b.border-gray-200(class="sm:rounded-lg")
+                    .bg-white.px-4.py-5.border-b.border-gray-200(class="sm:px-6")
+                        .-ml-4.-mt-4.flex.justify-between.items-center.flex-wrap(class="sm:flex-no-wrap")
+                            .ml-4.mt-4
+                                h3.text-lg.leading-6.font-medium.text-gray-900
+                                    | Utilisateurs
+                                p.mt-1.text-sm.leading-5.text-gray-500
+                                    | #{users.size()} résultats
+                            
+                    table.min-w-full
+                        thead
+                            tr
+                                th.px-6.py-3.border-b.border-gray-200.bg-gray-50.text-left.text-xs.leading-4.font-medium.text-gray-500.uppercase.tracking-wider
+                                    | ID
+                                th.px-6.py-3.border-b.border-gray-200.bg-gray-50.text-left.text-xs.leading-4.font-medium.text-gray-500.uppercase.tracking-wider
+                                    | Nom
+                                th.px-6.py-3.border-b.border-gray-200.bg-gray-50.text-left.text-xs.leading-4.font-medium.text-gray-500.uppercase.tracking-wider
+                                    | Rôle
+                                th.px-6.py-3.border-b.border-gray-200.bg-gray-50
+                        tbody
+                            each user, index in users
+                                tr(class=index % 2 == 0 ? 'bg-white' : 'bg-gray-50')
+                                    td.px-6.py-4.whitespace-no-wrap.text-sm.leading-5.text-gray-500
+                                        | #{user.id}
+                                    td.px-6.py-4.text-sm.leading-5.font-medium.text-gray-900
+                                        | #{user.username}
+                                    td.px-6.py-4.text-sm.leading-5.text-gray-500
+                                        | #{user.role == 'ROLE_ADMIN' ? 'Administrateur' : 'Utilisateur'}
+                                    td.px-6.py-4.whitespace-no-wrap.text-right.text-sm.leading-5.font-medium
+                                        a.text-red-600(href='/user/#{user.id}/delete' class="hover:text-indigo-900 focus:outline-none focus:underline") Supprimer
+                    
+        .flex-col.ml-5.max-w-sm.flex-grow
+            .bg-white.shadow(class="sm:rounded-lg")
+                form(action="/users" method="POST")
+                    .px-4.py-5(class="sm:p-6")
+                        h3.text-lg.leading-6.font-medium.text-gray-900
+                            | Ajouter une donnée
+                        .mt-2.max-w-xl.text-sm.leading-5.text-gray-500
+                            p Créer un nouvel utilisateur
+                        .mt-2
+                            label.block.text-sm.font-medium.leading-5.text-gray-700(for="username") Nom d'utilisateur
+                            .mt-1.relative.rounded-md.shadow-sm
+                                input#username.form-input.block.w-full(name="username" class="sm:text-sm sm:leading-5" placeholder="")
+                        .mt-2
+                            label.block.text-sm.font-medium.leading-5.text-gray-700(for="password") Mot de passe
+                            .mt-1.relative.rounded-md.shadow-sm
+                                input#password.form-input.block.w-full(name="password" class="sm:text-sm sm:leading-5" type="password" placeholder="")
+                        .mt-2
+                            label.block.text-sm.font-medium.leading-5.text-gray-700(for="role") Rôle
+                            .mt-1.rounded-md.shadow-sm
+                                select#country.form-select.block.w-full.transition.duration-150.ease-in-out(name="role" class="sm:text-sm sm:leading-5")
+                                    option(value="ROLE_USER") Utilisateur
+                                    option(value="ROLE_USER") Administrateur
+
+                        .mt-5
+                            span.shadow-sm.rounded-md
+                                button.inline-flex.items-center.px-4.py-2.border.border-transparent.text-sm.leading-5.font-medium.rounded-md.text-white.bg-indigo-600.transition.duration-150.ease-in-out(type="submit" class="hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-700")
+                                    | Créer

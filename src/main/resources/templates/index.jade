@@ -1,0 +1,31 @@
+extends layouts/layout
+
+block content
+    div(class="md:flex md:items-center md:justify-between")
+        .flex-1.min-w-0
+            h2.text-2xl.font-bold.leading-7.text-gray-900(class="sm:text-3xl sm:leading-9 sm:truncate")
+                | Gestion des services aux routiers
+    div.mt-5
+        .mt-5.grid.grid-cols-1.gap-5(class="sm:grid-cols-3")
+            .bg-white.overflow-hidden.shadow.rounded-lg
+                .px-4.py-5(class="sm:p-6")
+                    dl
+                        dt.text-sm.leading-5.font-medium.text-gray-500.truncate
+                            | Nombre d'aires de services
+                        dd.mt-1.text-3xl.leading-9.font-semibold.text-gray-900
+                            | #{airesCount}
+            .bg-white.overflow-hidden.shadow.rounded-lg
+                .px-4.py-5(class="sm:p-6")
+                    dl
+                        dt.text-sm.leading-5.font-medium.text-gray-500.truncate
+                            | Nombre d'aires ouvertes
+                        dd.mt-1.text-3xl.leading-9.font-semibold.text-gray-900
+                            | #{airesOuvertesCount}
+            .bg-white.overflow-hidden.shadow.rounded-lg
+                .px-4.py-5(class="sm:p-6")
+                    dl
+                        dt.text-sm.leading-5.font-medium.text-gray-500.truncate
+                            | Pourcentage d'aires ouvertes
+                        dd.mt-1.text-3xl.leading-9.font-semibold.text-gray-900
+                            | #{airesOuvertesRatio} %
+
