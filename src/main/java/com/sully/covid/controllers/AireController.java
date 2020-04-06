@@ -4,9 +4,6 @@ import com.sully.covid.dal.model.Aire;
 import com.sully.covid.dal.repository.AireRepository;
 import com.sully.covid.dal.service.AireService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,25 +26,7 @@ public class AireController extends ControllerBase<Aire, AireRepository> {
                         @RequestParam(defaultValue = "asc", required = false) String dir,
                         @RequestParam(defaultValue = "", required = false) String keyword,
                         @RequestParam(defaultValue = "false", required = false) String success) {
-
-        Page<Aire> aires = this.service.search(PageRequest.of(page, 20, Sort.Direction.fromString(dir), sort), keyword);
-
-        long firstIndex = aires.getSize() * aires.getNumber() + 1;
-        long lastIndex = aires.isLast() ? aires.getTotalElements() : firstIndex + aires.getSize() - 1;
-        model.addAttribute("firstIndex", firstIndex);
-        model.addAttribute("lastIndex", lastIndex);
-        model.addAttribute("page", aires);
-        model.addAttribute("aires", aires.getContent());
-        model.addAttribute("active", "aires");
-        model.addAttribute("sort", sort);
-        model.addAttribute("dir", dir);
-        model.addAttribute("keyword", keyword);
-        model.addAttribute("previousPage", aires.previousOrFirstPageable().getPageNumber());
-        model.addAttribute("nextPage", aires.nextOrLastPageable().getPageNumber());
-        model.addAttribute("currentPage", aires.getNumber());
-        model.addAttribute("lastPage", aires.getTotalPages() - 1);
-        model.addAttribute("success", success);
-        return "aires";
+        return super.search(model, page, sort, dir, keyword, success);
     }
 
     @Override
