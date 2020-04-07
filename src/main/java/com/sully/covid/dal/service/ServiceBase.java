@@ -6,6 +6,7 @@ import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import com.sully.covid.dal.model.Aire;
+import com.sully.covid.dal.model.ModelBase;
 import jdk.jshell.spi.ExecutionControl;
 import org.apache.commons.lang3.NotImplementedException;
 import org.geojson.FeatureCollection;
@@ -19,7 +20,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.List;
 
-public abstract  class ServiceBase<REPOSITORY extends JpaRepository<ENTITY, Long>, ENTITY> {
+public abstract  class ServiceBase<REPOSITORY extends JpaRepository<ENTITY, Long>, ENTITY extends ModelBase> {
     protected REPOSITORY repository;
 
     public Page<ENTITY> search(Pageable pageable, String keyword) {

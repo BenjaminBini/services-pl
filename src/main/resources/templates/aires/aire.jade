@@ -11,54 +11,20 @@ block content
                                 | #{aire ? 'Aire : ' + aire.nomAire : 'Nouvelle aire'}
                         .ml-4.mt-2.flex-shrink-0
                             span.inline-flex.rounded-md.shadow-sm
-                                a.inline-flex.items-center.px-4.py-2.border.border-gray-300.text-sm.leading-5.font-medium.rounded-md.text-gray-700.bg-white.transition.ease-in-out.duration-150(href="/aires" class="hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50")
+                                a.inline-flex.items-center.px-4.py-2.border.border-gray-300.text-sm.leading-5.font-medium.rounded-md.text-gray-700.bg-white.transition.ease-in-out.duration-150(href="/aire" class="hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50")
                                     | Retour
 
-
-                .px-4.py-5.bg-white(class="sm:p-6")
-                    .flex.items-start.mt-6
-                        .col-span-6(class="sm:col-span-2")
-                            label.block.text-sm.font-medium.leading-5.text-gray-700(for="id") Identifiant
-                            .mt-1.relative.rounded-md.shadow-sm
-                                input.form-input.block.w-full(name="id", class="sm:text-sm sm:leading-5" placeholder="1234", value="#{aire.id}")
-
-                    .flex.items-start.mt-6
-                        .col-span-6(class="sm:col-span-2")
-                            label.block.text-sm.font-medium.leading-5.text-gray-700(for="id") Nom
-                            .mt-1.relative.rounded-md.shadow-sm
-                                input.form-input.block.w-full(name="nomAire", class="sm:text-sm sm:leading-5" placeholder="Aire du Haut Koenigsbourg", value="#{aire.nomAire}")
-
-                    .relative.flex.items-start.mt-6
-                        .absolute.flex.items-center.h-5
-                            input#statutOuvert.form-checkbox.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(name="statutOuvert" type="checkbox", checked=aire.statutOuvert)
-                        .pl-7.text-sm.leading-5
-                            label.font-medium.text-gray-700(for="statutOuvert") Ouvert
-                            p.text-gray-500 L'aire est-elle actuellement ouverte ?
-
-                    .relative.flex.items-start.mt-6
-                        .absolute.flex.items-center.h-5
-                            input#concession.form-checkbox.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(name="concession" type="checkbox" checked=aire.concession)
-                        .pl-7.text-sm.leading-5
-                            label.font-medium.text-gray-700(for="concession") Concession
-                            p.text-gray-500 L'aire est-elle gérée par un concessionnaire ?
-
-                    .flex.items-start.mt-6
-                        .col-span-6(class="sm:col-span-2")
-                            label.block.text-sm.font-medium.leading-5.text-gray-700(for="dirSca") Identifiant du gestionnaire
-                            .mt-1.relative.rounded-md.shadow-sm
-                                input.form-input.block.w-full(name="dirSca", class="sm:text-sm sm:leading-5" placeholder="" value="#{aire.dirSca}")
-                    
-                    .flex.items-start.mt-6
-                        .col-span-6(class="sm:col-span-2")
-                            label.block.text-sm.font-medium.leading-5.text-gray-700(for="route") Route
-                            .mt-1.relative.rounded-md.shadow-sm
-                                input.form-input.block.w-full(name="route", class="sm:text-sm sm:leading-5" placeholder="" value="#{aire.route}")
-                                
-                    .flex.items-start.mt-6
-                        .col-span-6(class="sm:col-span-2")
-                            label.block.text-sm.font-medium.leading-5.text-gray-700(for="route") Département
-                            .mt-1.relative.rounded-md.shadow-sm
-                                input.form-input.block.w-full(name="dep", class="sm:text-sm sm:leading-5" placeholder="" value="#{aire.dep}")
+                    +hiddenInput('id', aire.id)
+                    +textInput('id', 'Identifiant', aire.id, true)
+                    +textInput('nomAire', 'Nom', aire.nomAire)
+                    +checkbox('statutOuvert', aire.statutOuvert, 'Ouvert', 'L\'aire est-elle actuellement ouverte ?')
+                    +checkbox('concession', aire.concession, 'Concession', 'L\'aire est-elle gérée par un concessionnaire ?')
+                    +textInput('dirSca', 'Identifiant du gestionnaire', aire.dirSca)
+                    +textInput('route', 'Route', aire.route)
+                    +textInput('dep', 'Département', aire.dep)
+                    +textInput('com', 'Commentaire', aire.com)
+                    +textInput('x', 'X (Lambert 93)', aire.x)
+                    +textInput('y', 'Y (Lambert 93)', aire.y)
 
                     .mt-6
                         label.block.text-sm.font-medium.leading-5.text-gray-700 Type d'aire
@@ -221,52 +187,5 @@ block content
                                         .mt-2.flex.items-center
                                             input#servCarbuPlInconnu.form-radio.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(name="servCarbuPl" type="radio" value="" checked=aire.servCarbuPl==null)
                                             label.ml-3(for="servCarbuPlInconnu")
-                                                span.block.text-sm.leading-5.font-medium.text-gray-700 -
-                    .flex.items-start.mt-6
-                        .col-span-6(class="sm:col-span-2")
-                            label.block.text-sm.font-medium.leading-5.text-gray-700(for="com") Commentaire
-                            .mt-1.relative.rounded-md.shadow-sm
-                                input.form-input.block.w-full(name="com", class="sm:text-sm sm:leading-5" placeholder="" value="#{aire.com}")
-                                
-                    .flex.items-start.mt-6
-                        .col-span-6(class="sm:col-span-2")
-                            label.block.text-sm.font-medium.leading-5.text-gray-700(for="x") X (Lambert 93) #{aire.x}
-                            .mt-1.relative.rounded-md.shadow-sm
-                                input.form-input.block.w-full(name="x", class="sm:text-sm sm:leading-5" placeholder="" value="#{aire.x}")
-                                
-                    .flex.items-start.mt-6
-                        .col-span-6(class="sm:col-span-2")
-                            label.block.text-sm.font-medium.leading-5.text-gray-700(for="y") Y (Lambert 93)
-                            .mt-1.relative.rounded-md.shadow-sm
-                                input.form-input.block.w-full(name="y", class="sm:text-sm sm:leading-5" placeholder="" value="#{aire.y}")
-
-                .px-4.py-3.bg-gray-50.text-right(x-data="{ open: false }" class="sm:px-6")
-
-                    .fixed.bottom-0.inset-x-0.px-4.pb-4( x-show="open" class="sm:inset-0 sm:flex sm:items-center sm:justify-center")
-                        .fixed.inset-0.transition-opacity(x-show="open" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0")
-                            .absolute.inset-0.bg-gray-500.opacity-75
-                        .bg-white.rounded-lg.px-4.pt-5.pb-4.overflow-hidden.shadow-xl.transform.transition-all(x-show="open" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100" x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" class="sm:max-w-lg sm:w-full sm:p-6")
-                            div(class="sm:flex sm:items-start")
-                                .mx-auto.flex-shrink-0.flex.items-center.justify-center.h-12.w-12.rounded-full.bg-red-100(class="sm:mx-0 sm:h-10 sm:w-10")
-                                    svg.h-6.w-6.text-red-600(stroke="currentColor" fill="none" viewbox="0 0 24 24")
-                                        path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z")
-                                .mt-3.text-center(class="sm:mt-0 sm:ml-4 sm:text-left")
-                                    h3.text-lg.leading-6.font-medium.text-gray-900
-                                        | Supprimer l'aire
-                                    .mt-2
-                                        p.text-sm.leading-5.text-gray-500
-                                            | Êtes-vous certain de vouloir supprimer cette aire ?
-                            .mt-5(class="sm:mt-4 sm:flex sm:flex-row-reverse")
-                                span.flex.w-full.rounded-md.shadow-sm(class="sm:ml-3 sm:w-auto")
-                                    a.inline-flex.justify-center.w-full.rounded-md.border.border-transparent.px-4.py-2.bg-red-600.text-base.leading-6.font-medium.text-white.shadow-sm.transition.ease-in-out.duration-150(href="/aire/#{aire.id}/delete" type="button" class="hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red sm:text-sm sm:leading-5")
-                                        | Supprimer
-                                span.mt-3.flex.w-full.rounded-md.shadow-sm(class="sm:mt-0 sm:w-auto")
-                                    button.inline-flex.justify-center.w-full.rounded-md.border.border-gray-300.px-4.py-2.bg-white.text-base.leading-6.font-medium.text-gray-700.shadow-sm.transition.ease-in-out.duration-150(@click="open = false" type="button" class="hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline sm:text-sm sm:leading-5")
-                                        | Annuler
-
-
-                    button.inline-flex.items-center.justify-center.px-4.py-2.border.border-transparent.font-medium.rounded-md.text-red-700.bg-red-100.transition.ease-in-out.duration-150(@click="open = true" type="button" class="hover:bg-red-50 focus:outline-none focus:border-red-300 focus:shadow-outline-red active:bg-red-200 sm:text-sm sm:leading-5")
-                        | Supprimer l'aire
-
-                    button.ml-3.py-2.px-4.border.border-transparent.text-sm.leading-5.font-medium.rounded-md.text-white.bg-indigo-600.shadow-sm.transition.duration-150.ease-in-out(class="hover:bg-indigo-500 focus:outline-none focus:shadow-outline-blue active:bg-indigo-600")
-                        | Enregistrer
+                
+                +formFooter("aire", aire.id)

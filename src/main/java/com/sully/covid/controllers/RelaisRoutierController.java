@@ -16,7 +16,7 @@ public class RelaisRoutierController extends ControllerBase<RelaisRoutier, Relai
 
     @Autowired
     public RelaisRoutierController(RelaisRoutierService relaisRoutierService) {
-        super(RelaisRoutier.class, "relais", "relais-liste", "relais", "relais");
+        super(RelaisRoutier.class, "relais/relais", "relais/relais-liste", "relais", "relais");
         this.service = relaisRoutierService;
     }
 

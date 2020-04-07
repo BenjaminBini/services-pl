@@ -15,6 +15,7 @@ public class Aire implements ModelBase {
     @Id
     @Column(name = "ID")
     @CsvBindByName(column = "ID")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private long id;
 
     /**

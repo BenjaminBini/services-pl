@@ -1,0 +1,28 @@
+extends /layouts/layout
+
+block content
+    .mt-10(class="sm:mt-0")
+        form(action="/relais" method="POST")
+            .mb-10.shadow.overflow-hidden(class="sm:rounded-md")
+                .bg-white.px-4.py-5.border-b.border-gray-200(class="sm:px-6")
+                    .-ml-4.-mt-2.flex.items-center.justify-between.flex-wrap(class="sm:flex-no-wrap")
+                        .ml-4.mt-2
+                            h3.text-lg.leading-6.font-medium.text-gray-900
+                                | #{relais ? 'Relais routier : ' + relais.nom : 'Nouveau relais'}
+                        .ml-4.mt-2.flex-shrink-0
+                            span.inline-flex.rounded-md.shadow-sm
+                                a.inline-flex.items-center.px-4.py-2.border.border-gray-300.text-sm.leading-5.font-medium.rounded-md.text-gray-700.bg-white.transition.ease-in-out.duration-150(href="/relais" class="hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50")
+                                    | Retour
+                    
+                    +hiddenInput('id', relais.id)
+                    +textInput('id', 'Identifiant', relais.id, true)
+                    +textInput('nom', 'Nom', relais.nom)
+                    +checkbox('statutOuvert', relais.statutOuvert, 'Ouvert', 'Le relais est-il actuellement ouvert ?')
+                    +textInput('adresse', 'Adresse', relais.adresse)
+                    +textInput('dep', 'Département', relais.dep)
+                    +textInput('tel', 'Téléphone', relais.tel)
+                    +textInput('com', 'Commentaire', relais.com)
+                    +textInput('lat', 'Latitude', relais.lat)
+                    +textInput('lon', 'Longitude', relais.lon)
+
+                +formFooter("relais", relais.id)
