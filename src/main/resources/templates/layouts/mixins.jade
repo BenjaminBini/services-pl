@@ -1,0 +1,15 @@
+mixin textInput(name, label, value)
+    .flex.items-start.mt-6
+        .col-span-6(class="sm:col-span-2")
+            label.block.text-sm.font-medium.leading-5.text-gray-700(for="dep") #{label}
+            .mt-1.relative.rounded-md.shadow-sm
+                input.form-input.block.w-full(name="#{name}", class="sm:text-sm sm:leading-5" placeholder="", value="#{value}")
+
+
+mixin checkbox(name, isChecked, label, explanation)
+    .relative.flex.items-start.mt-6
+        .absolute.flex.items-center.h-5
+            input.form-checkbox.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(id=name name=name type="checkbox" checked=isChecked)
+        .pl-7.text-sm.leading-5
+            label.font-medium.text-gray-700(for=name) #{label}
+            p.text-gray-500 #{explanation}

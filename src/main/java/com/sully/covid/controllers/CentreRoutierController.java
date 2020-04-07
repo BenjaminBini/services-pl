@@ -1,8 +1,8 @@
 package com.sully.covid.controllers;
 
-import com.sully.covid.dal.model.Aire;
-import com.sully.covid.dal.repository.AireRepository;
-import com.sully.covid.dal.service.AireService;
+import com.sully.covid.dal.model.CentreRoutier;
+import com.sully.covid.dal.repository.CentreRoutierRepository;
+import com.sully.covid.dal.service.CentreRoutierService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,15 +12,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
-public class AireController extends ControllerBase<Aire, AireRepository> {
+public class CentreRoutierController extends ControllerBase<CentreRoutier, CentreRoutierRepository> {
 
     @Autowired
-    public AireController(AireService aireService) {
-        super(Aire.class, "aires/aire", "aires/aires", "aire", "aire");
-        this.service = aireService;
+    public CentreRoutierController(CentreRoutierService centreRoutierService) {
+        super(CentreRoutier.class, "routiers/routier", "routiers/routiers", "routier", "routier");
+        this.service = centreRoutierService;
     }
 
-    @GetMapping("/aire")
+    @GetMapping("/routier")
     public String aires(Model model, @RequestParam(defaultValue = "0", required = false) int page,
                         @RequestParam(defaultValue = "id", required = false) String sort,
                         @RequestParam(defaultValue = "asc", required = false) String dir,
@@ -30,33 +30,32 @@ public class AireController extends ControllerBase<Aire, AireRepository> {
     }
 
     @Override
-    @GetMapping("/aire/new")
+    @GetMapping("/routier/new")
     public String newOne(Model model) {
         return super.newOne(model);
     }
 
     @Override
-    @GetMapping("/aire/{id}")
+    @GetMapping("/routier/{id}")
     public String viewOne(Model model, @PathVariable long id) {
         return super.viewOne(model, id);
     }
 
     @Override
-    @PostMapping("/aire")
-    public String save(Model model, @ModelAttribute Aire aire) {
-        return super.save(model, aire);
+    @PostMapping("/routier")
+    public String save(Model model, @ModelAttribute CentreRoutier centreRoutier) {
+        return super.save(model, centreRoutier);
     }
 
     @Override
-    @GetMapping("/aire/{id}/delete")
+    @GetMapping("/routier/{id}/delete")
     public RedirectView delete(@PathVariable long id, RedirectAttributes model) {
         return super.delete(id, model);
     }
 
     @Override
-    @PostMapping("/aire/import")
+    @PostMapping("/routier/import")
     public RedirectView importCSV(@RequestParam("file") MultipartFile file, RedirectAttributes model) {
         return super.importCSV(file, model);
     }
-
 }

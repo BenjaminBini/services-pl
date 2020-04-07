@@ -1,9 +1,5 @@
 package com.sully.covid.dal.service;
 
-import com.opencsv.bean.StatefulBeanToCsv;
-import com.opencsv.bean.StatefulBeanToCsvBuilder;
-import com.opencsv.exceptions.CsvDataTypeMismatchException;
-import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import com.sully.covid.dal.model.Aire;
 import com.sully.covid.dal.repository.AireRepository;
 import com.sully.covid.util.Lambert;
@@ -16,12 +12,7 @@ import org.geojson.Point;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
-import java.io.StringWriter;
-import java.util.List;
 
 @Service
 public class AireService extends ServiceBase<AireRepository, Aire> {

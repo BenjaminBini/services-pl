@@ -10,7 +10,7 @@ import javax.persistence.Table;
 @Data
 @Entity
 @Table(name = "RELAIS_ROUTIER")
-public class RelaisRoutier {
+public class RelaisRoutier implements ModelBase {
     @Id
     @Column(name = "ID")
     private long id;

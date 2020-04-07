@@ -1,4 +1,4 @@
-extends layouts/layout
+extends /layouts/layout
 
 block content
     .flex 
@@ -9,7 +9,7 @@ block content
                         .-ml-4.-mt-4.flex.justify-between.items-center.flex-wrap(class="sm:flex-no-wrap")
                             .ml-4.mt-4
                                 h3.text-lg.leading-6.font-medium.text-gray-900
-                                    | Aires de service et de repos
+                                    | Centre routiers
                                 p.mt-1.text-sm.leading-5.text-gray-500
                                     | #{page.getTotalElements()} résultats
                             .mt-4.flex(class="md:mt-0 md:ml-4")
@@ -21,7 +21,7 @@ block content
                                                 | Tri par&nbsp;
                                                 if sort == 'id'
                                                     | id
-                                                else if sort == 'nomAire'
+                                                else if sort == 'nomCentre'
                                                     | nom
                                                 else if sort == 'statutOuvert'
                                                     | statut
@@ -31,7 +31,7 @@ block content
                                         .rounded-md.bg-white.shadow-xs
                                             .py-1
                                                 a.block.px-4.py-2.text-sm.leading-5.text-gray-700(href="?page=#{page.getNumber()}&sort=id&dir=#{dir}&keyword=#{keyword}" class="hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900") Id
-                                                a.block.px-4.py-2.text-sm.leading-5.text-gray-700(href="?page=#{page.getNumber()}&sort=nomAire&dir=#{dir}&keyword=#{keyword}" class="hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900") Nom
+                                                a.block.px-4.py-2.text-sm.leading-5.text-gray-700(href="?page=#{page.getNumber()}&sort=nomCentre&dir=#{dir}&keyword=#{keyword}" class="hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900") Nom
                                                 a.block.px-4.py-2.text-sm.leading-5.text-gray-700(href="?page=#{page.getNumber()}&sort=statutOuvert&dir=#{dir}&keyword=#{keyword}" class="hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900") Statut
                                 
                                 
@@ -67,23 +67,23 @@ block content
                                     | Statut
                                 th.px-6.py-3.border-b.border-gray-200.bg-gray-50
                         tbody
-                            each aire, index in aires
+                            each routier, index in routierListe
                                 tr(class=index % 2 == 0 ? 'bg-white' : 'bg-gray-50')
                                     td.px-6.py-4.whitespace-no-wrap.text-sm.leading-5.text-gray-500
-                                        | #{aire.id}
+                                        | #{routier.id}
                                     td.px-6.py-4.text-sm.leading-5.font-medium.text-gray-900
-                                        | #{aire.nomAire}
+                                        | #{routier.nomCentre}
                                     td.px-6.py-4.text-sm.leading-5.text-gray-500
-                                        | #{aire.com}
+                                        | #{routier.com}
                                     td.px-6.py-4.whitespace-no-wrap.text-sm.leading-5.text-gray-500
-                                        if aire.statutOuvert
+                                        if routier.statutOuvert
                                             .inline-flex.items-center.rounded-md.text-sm.font-medium.leading-5.bg-green-100.text-green-800(class="px-2.5 py-0.5")
                                                 | Ouvert
                                         else
                                             .inline-flex.items-center.rounded-md.text-sm.font-medium.leading-5.bg-red-100.text-red-800(class="px-2.5 py-0.5")
                                                 | Fermé
                                     td.px-6.py-4.whitespace-no-wrap.text-right.text-sm.leading-5.font-medium
-                                        a.text-indigo-600(href='/aire/#{aire.id}' class="hover:text-indigo-900 focus:outline-none focus:underline") Modifier
+                                        a.text-indigo-600(href='/routier/#{routier.id}' class="hover:text-indigo-900 focus:outline-none focus:underline") Modifier
                     .bg-white.px-4.py-3.flex.items-center.justify-between.border-t.border-gray-200(class="sm:px-6")
                         .hidden(class="sm:flex-1 sm:flex sm:items-center sm:justify-between")
                             div
@@ -113,13 +113,13 @@ block content
                         p Exporter les données au format GeoJSON ou CSV
                     .mt-5
                         span.shadow-sm.rounded-md
-                            a.inline-flex.items-center.px-3.py-2.border.border-transparent.text-sm.leading-5.font-medium.rounded-md.text-indigo-700.bg-indigo-100.transition.ease-in-out.duration-150(href="/api/aires/geojson" target="_blank" class="hover:bg-indigo-50 focus:outline-none focus:border-indigo-300 focus:shadow-outline-indigo active:bg-indigo-200")
+                            a.inline-flex.items-center.px-3.py-2.border.border-transparent.text-sm.leading-5.font-medium.rounded-md.text-indigo-700.bg-indigo-100.transition.ease-in-out.duration-150(href="/api/routiers/geojson" target="_blank" class="hover:bg-indigo-50 focus:outline-none focus:border-indigo-300 focus:shadow-outline-indigo active:bg-indigo-200")
                                 | GeoJSON
                         span.shadow-sm.rounded-md.ml-3
-                            a.inline-flex.items-center.px-3.py-2.border.border-transparent.text-sm.leading-5.font-medium.rounded-md.text-indigo-700.bg-indigo-100.transition.ease-in-out.duration-150(href="/api/aires/csv" target="_blank" class="hover:bg-indigo-50 focus:outline-none focus:border-indigo-300 focus:shadow-outline-indigo active:bg-indigo-200")
+                            a.inline-flex.items-center.px-3.py-2.border.border-transparent.text-sm.leading-5.font-medium.rounded-md.text-indigo-700.bg-indigo-100.transition.ease-in-out.duration-150(href="/api/routiers/csv" target="_blank" class="hover:bg-indigo-50 focus:outline-none focus:border-indigo-300 focus:shadow-outline-indigo active:bg-indigo-200")
                                 | CSV
             .mt-5.bg-white.shadow(class="sm:rounded-lg")
-                form(action="/aires/import" method="POST" enctype="multipart/form-data")
+                form(action="/routier/import" method="POST" enctype="multipart/form-data")
                     .px-4.py-5(class="sm:p-6")
                         h3.text-lg.leading-6.font-medium.text-gray-900
                             | Import
@@ -137,8 +137,8 @@ block content
                     h3.text-lg.leading-6.font-medium.text-gray-900
                         | Ajouter une donnée
                     .mt-2.max-w-xl.text-sm.leading-5.text-gray-500
-                        p Créer une nouvelle aire
+                        p Créer une nouveau centre
                     .mt-5
                         span.shadow-sm.rounded-md
-                            a.inline-flex.items-center.px-4.py-2.border.border-transparent.text-sm.leading-5.font-medium.rounded-md.text-white.bg-indigo-600.transition.duration-150.ease-in-out(href="/aire" class="hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-700")
+                            a.inline-flex.items-center.px-4.py-2.border.border-transparent.text-sm.leading-5.font-medium.rounded-md.text-white.bg-indigo-600.transition.duration-150.ease-in-out(href="/routier/new" class="hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-700")
                                 | Nouveau

@@ -6,18 +6,17 @@ import lombok.Data;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Data
 @Entity(name = "CENTRE_CT")
-public class CentreCT {
+public class CentreCT implements ModelBase {
 
     @Id
     @Column(name = "ID")
     private long id;
 
     @Column(name = "NOM")
-    private String name;
+    private String nom;
 
     @Column(name = "STATUT_OUVERT")
     private Boolean statutOuvert;
@@ -27,6 +26,9 @@ public class CentreCT {
 
     @Column(name = "DEP")
     private String dep;
+
+    @Column(name = "CODE_INSEE")
+    private String codeInsee;
 
     @Column(name = "COMMUNE")
     private String commune;

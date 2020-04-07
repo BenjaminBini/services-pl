@@ -8,7 +8,7 @@ import javax.persistence.Id;
 
 @Data
 @Entity(name="CENTRE_ROUTIER")
-public class CentreRoutier {
+public class CentreRoutier implements ModelBase {
     @Id
     @Column(name = "ID")
     private long id;
