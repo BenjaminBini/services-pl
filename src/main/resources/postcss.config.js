@@ -11,9 +11,12 @@ const purgecss = require('@fullhuman/postcss-purgecss')({
 
   module.exports = {
     plugins: [
-      require('tailwindcss'),
-      require('autoprefixer'),
-      purgecss
+        require('tailwindcss'),
+        require('autoprefixer'),
+        purgecss,
+        require('cssnano')({
+            preset: 'default',
+        }),
     ]
   }
 
