@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+    <module name="covid-routiers" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.sully.covid.StationMapApplication" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <envs>
+      <env name="SPRING_DATASOURCE_URL" value="jdbc:mysql://localhost:3307/covid?useSSL=false&amp;serverTimezone=UTC&amp;useLegacyDatetimeCode=false" />
+      <env name="SPRING_DATASOURCE_USERNAME" value="root" />
+      <env name="SPRING_DATASOURCE_PASSWORD" value="sully" />
+    </envs>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
