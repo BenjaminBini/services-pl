@@ -18,7 +18,9 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
+import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 @Configuration
 public class ApplicationConfiguration implements WebMvcConfigurer {
@@ -51,6 +53,9 @@ public class ApplicationConfiguration implements WebMvcConfigurer {
                 if (modelAndView != null) {
                     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
                     Collection<SimpleGrantedAuthority> authorities = (Collection<SimpleGrantedAuthority>) authentication.getAuthorities();
+                    List<String> roles = authorities.stream().map(SimpleGrantedAuthority::getAuthority).collect(Collectors.toList());
+                    modelAndView.addObject("roles", roles);
+
                     boolean isAdmin = authorities.stream().filter(a -> a.getAuthority().equals("ROLE_ADMIN")).count() > 0;
                     modelAndView.addObject("isAdmin", isAdmin);
 
