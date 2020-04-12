@@ -1,6 +1,7 @@
 package com.sully.covid.configuration;
 
 import com.sully.covid.dal.model.User;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 
 public class UserPrincipal implements UserDetails {
+
+    @Getter
     private User user;
 
     public UserPrincipal(User user) {
