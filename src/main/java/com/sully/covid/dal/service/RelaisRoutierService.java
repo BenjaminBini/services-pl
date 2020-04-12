@@ -16,7 +16,7 @@ public class RelaisRoutierService extends ServiceBase<RelaisRoutierRepository, R
     }
 
     @Override
-    public Page<RelaisRoutier> search(Pageable pageable, String keyword) {
+    public Page<RelaisRoutier> search(Pageable pageable, String keyword, String filter) {
         return this.repository.findByNomContaining(keyword, pageable);
     }
 }

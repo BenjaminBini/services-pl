@@ -1,9 +1,12 @@
 package com.sully.covid.controllers;
 
+import com.sully.covid.configuration.UserPrincipal;
 import com.sully.covid.dal.model.Aire;
+import com.sully.covid.dal.model.User;
 import com.sully.covid.dal.repository.AireRepository;
 import com.sully.covid.dal.service.AireService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,12 +24,15 @@ public class AireController extends ControllerBase<Aire, AireRepository> {
     }
 
     @GetMapping("/aire")
-    public String aires(Model model, @RequestParam(defaultValue = "0", required = false) int page,
+    public String aires(Model model, Authentication authentication,
+                        @RequestParam(defaultValue = "0", required = false) int page,
                         @RequestParam(defaultValue = "id", required = false) String sort,
                         @RequestParam(defaultValue = "asc", required = false) String dir,
                         @RequestParam(defaultValue = "", required = false) String keyword,
                         @RequestParam(defaultValue = "false", required = false) String success) {
-        return super.search(model, page, sort, dir, keyword, success);
+        UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
+        User user = principal.getUser();
+        return super.search(model, page, sort, dir, keyword, success, user.getGest());
     }
 
     @Override

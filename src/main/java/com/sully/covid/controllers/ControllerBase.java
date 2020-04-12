@@ -49,9 +49,13 @@ public abstract class ControllerBase<ENTITY extends ModelBase, REPOSITORY extend
         return editTemplate;
     }
 
+    protected Page<ENTITY> search(int pageNumber, String sort, String dir, String keyword, String filter) {
+        return this.service.search(PageRequest.of(pageNumber, 20, Sort.Direction.fromString(dir), sort), keyword, filter);
+    }
 
-    public String search(Model model, int pageNumber, String sort, String dir, String keyword, String success) {
-        Page<ENTITY> page = this.service.search(PageRequest.of(pageNumber, 20, Sort.Direction.fromString(dir), sort), keyword);
+
+    public String search(Model model, int pageNumber, String sort, String dir, String keyword, String success, String filter) {
+        Page<ENTITY> page = this.search(pageNumber, sort, dir, keyword, filter);
 
         long firstIndex = page.getSize() * page.getNumber() + 1;
         long lastIndex = page.isLast() ? page.getTotalElements() : firstIndex + page.getSize() - 1;

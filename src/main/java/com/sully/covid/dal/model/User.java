@@ -3,7 +3,6 @@ package com.sully.covid.dal.model;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 @Data
 @Entity(name = "users")
@@ -16,6 +15,9 @@ public class User {
 
     @Column(name = "USERNAME")
     private String username;
+
+    @Column(name = "GEST")
+    private String gest;
 
     @Column(name = "PASSWORD")
     private String password;

@@ -16,7 +16,7 @@ public class CentreRoutierService extends ServiceBase<CentreRoutierRepository, C
     }
 
     @Override
-    public Page<CentreRoutier> search(Pageable pageable, String keyword) {
+    public Page<CentreRoutier> search(Pageable pageable, String keyword, String filter) {
         return this.repository.findByNomCentreContaining(keyword, pageable);
     }
 }

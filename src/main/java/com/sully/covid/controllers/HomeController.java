@@ -24,12 +24,24 @@ public class HomeController {
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("active", "dashboard");
+
+        // Stats aires
         List<Aire> aires = this.aireService.getAll();
         long openCount = aires.stream().filter(a -> a.isStatutOuvert()).count();
         float openRatio = (float) openCount / aires.size() * 100;
+
+        long douches;
+        long restaurant;
+        long pompesPl;
+
+        model.addAttribute("aires", aires);
         model.addAttribute("airesCount", aires.size());
         model.addAttribute("airesOuvertesCount", openCount);
         model.addAttribute("airesOuvertesRatio", Math.round(openRatio * 100.0) / 100.0);
+
+        // Stats CT
+
+        // Stst
         return "index.jade";
     }
 

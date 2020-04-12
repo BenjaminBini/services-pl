@@ -23,8 +23,13 @@ public class AireService extends ServiceBase<AireRepository, Aire> {
     }
 
     @Override
-    public Page<Aire> search(Pageable pageable, String keyword) {
-        return this.repository.findByNomAireContaining(keyword, pageable);
+    public Page<Aire> search(Pageable pageable, String keyword, String filter) {
+        if (filter != null) {
+            return this.repository.findByNomAireContainingAndDirSca(keyword, filter, pageable);
+        } else {
+            return this.repository.findByNomAireContaining(keyword, pageable);
+        }
+
     }
 
     @Override

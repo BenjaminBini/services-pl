@@ -16,7 +16,7 @@ public class CentreCTService extends ServiceBase<CentreCTRepository, CentreCT> {
     }
 
     @Override
-    public Page<CentreCT> search(Pageable pageable, String keyword) {
+    public Page<CentreCT> search(Pageable pageable, String keyword, String filter) {
         return this.repository.findByNomContaining(keyword, pageable);
     }
 

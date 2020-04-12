@@ -26,7 +26,7 @@ public class RelaisRoutierController extends ControllerBase<RelaisRoutier, Relai
                         @RequestParam(defaultValue = "asc", required = false) String dir,
                         @RequestParam(defaultValue = "", required = false) String keyword,
                         @RequestParam(defaultValue = "false", required = false) String success) {
-        return super.search(model, page, sort, dir, keyword, success);
+        return super.search(model, page, sort, dir, keyword, success, null);
     }
 
     @Override
