@@ -3,6 +3,7 @@ package com.sully.covid.controllers;
 import com.sully.covid.dal.model.CentreCT;
 import com.sully.covid.dal.repository.CentreCTRepository;
 import com.sully.covid.dal.service.CentreCTService;
+import com.sully.covid.util.Entry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,12 +12,20 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.List;
+
 @Controller
 public class CentreCTController extends ControllerBase<CentreCT, CentreCTRepository> {
 
     @Autowired
     public CentreCTController(CentreCTService centreCTService) {
-        super(CentreCT.class, "ct/ct", "ct/cts", "ct", "ct");
+        super(CentreCT.class,
+                "ct/ct",
+                "ct/cts",
+                "ct",
+                "ct",
+                List.of(new Entry("id", "id"), new Entry("nom", "nom"), new Entry("statutOuvert", "statut")),
+                List.of(new Entry("id", "Id"), new Entry("nom", "Nom"), new Entry("statutOuvert", "Statut")));
         this.service = centreCTService;
     }
 
@@ -26,7 +35,8 @@ public class CentreCTController extends ControllerBase<CentreCT, CentreCTReposit
                         @RequestParam(defaultValue = "asc", required = false) String dir,
                         @RequestParam(defaultValue = "", required = false) String keyword,
                         @RequestParam(defaultValue = "false", required = false) String success) {
-        return super.search(model, page, sort, dir, keyword, success, null);
+        return super.search(model,
+                page, sort, dir, keyword, success, null);
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.sully.covid.dal.model.Aire;
 import com.sully.covid.dal.model.User;
 import com.sully.covid.dal.repository.AireRepository;
 import com.sully.covid.dal.service.AireService;
+import com.sully.covid.util.Entry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -14,12 +15,21 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.List;
+
 @Controller
 public class AireController extends ControllerBase<Aire, AireRepository> {
 
+
     @Autowired
     public AireController(AireService aireService) {
-        super(Aire.class, "aires/aire", "aires/aires", "aire", "aire");
+        super(Aire.class,
+                "aires/aire",
+                "aires/aires",
+                "aire",
+                "aire",
+                List.of(new Entry("id", "id"), new Entry("nomAire", "nom"), new Entry("statutOuvert", "statut")),
+                List.of(new Entry("id", "Id"), new Entry("nomAire", "Nom"), new Entry("com", "Commentaire"), new Entry("statutOuvert", "Statut")));
         this.service = aireService;
     }
 

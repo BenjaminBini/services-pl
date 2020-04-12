@@ -3,6 +3,7 @@ package com.sully.covid.controllers;
 import com.sully.covid.dal.model.CentreRoutier;
 import com.sully.covid.dal.repository.CentreRoutierRepository;
 import com.sully.covid.dal.service.CentreRoutierService;
+import com.sully.covid.util.Entry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,12 +12,20 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.List;
+
 @Controller
 public class CentreRoutierController extends ControllerBase<CentreRoutier, CentreRoutierRepository> {
 
     @Autowired
     public CentreRoutierController(CentreRoutierService centreRoutierService) {
-        super(CentreRoutier.class, "routiers/routier", "routiers/routiers", "routier", "routier");
+        super(CentreRoutier.class,
+                "routiers/routier",
+                "routiers/routiers",
+                "routier",
+                "routier",
+                List.of(new Entry("id", "id"), new Entry("nomCentre", "nom"), new Entry("statutOuvert", "statut")),
+                List.of(new Entry("id", "Id"), new Entry("nomCentre", "Nom"), new Entry("com", "Commentaire"), new Entry("statutOuvert", "Statut")));
         this.service = centreRoutierService;
     }
 

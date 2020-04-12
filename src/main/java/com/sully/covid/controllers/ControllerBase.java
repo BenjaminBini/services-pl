@@ -4,6 +4,7 @@ import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.sully.covid.dal.model.ModelBase;
 import com.sully.covid.dal.service.ServiceBase;
+import com.sully.covid.util.Entry;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -19,7 +20,9 @@ import org.springframework.web.servlet.view.RedirectView;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class ControllerBase<ENTITY extends ModelBase, REPOSITORY extends JpaRepository<ENTITY, Long>> {
     protected final String editTemplate;
@@ -27,14 +30,23 @@ public abstract class ControllerBase<ENTITY extends ModelBase, REPOSITORY extend
     protected final String attributeName;
     protected final String path;
     protected final Class<ENTITY> type;
+    private LinkedHashMap<String, String> sortOptions;
+    private LinkedHashMap<String, String> columns;
     protected ServiceBase<REPOSITORY, ENTITY> service;
 
-    protected ControllerBase(Class<ENTITY> type, String editTemplate, String listTemplate, String attributeName, String path) {
+    protected ControllerBase(Class<ENTITY> type, String editTemplate, String listTemplate, String attributeName,
+                             String path, List<Entry> sortOptions, List<Entry> columns) {
         this.type = type;
         this.editTemplate = editTemplate;
         this.listTemplate = listTemplate;
         this.attributeName = attributeName;
         this.path = path;
+        if (sortOptions != null) {
+            this.sortOptions = sortOptions.stream().collect(Collectors.toMap(Entry::getKey, Entry::getValue, (x, y) -> y, LinkedHashMap::new));
+        }
+        if (columns != null) {
+            this.columns = columns.stream().collect(Collectors.toMap(Entry::getKey, Entry::getValue, (x, y) -> y, LinkedHashMap::new));
+        }
     }
 
     public String newOne(Model model) {
@@ -59,7 +71,9 @@ public abstract class ControllerBase<ENTITY extends ModelBase, REPOSITORY extend
 
         long firstIndex = page.getSize() * page.getNumber() + 1;
         long lastIndex = page.isLast() ? page.getTotalElements() : firstIndex + page.getSize() - 1;
+        model.addAttribute("columns", columns);
         model.addAttribute("firstIndex", firstIndex);
+        model.addAttribute("sortOptions", sortOptions);
         model.addAttribute("lastIndex", lastIndex);
         model.addAttribute("page", page);
         model.addAttribute(attributeName + "Liste", page.getContent());

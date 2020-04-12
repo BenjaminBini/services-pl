@@ -1,0 +1,9 @@
+extends layout.jade
+
+block content
+    div(class="xl:flex")
+        .flex-col.flex-grow
+            .-my-2.py-2.overflow-x-auto(class="sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8")
+                block tableView
+        .flex-col.mt-5(class="xl:ml-5 xl:max-w-sm xl:mt-0")
+            block sidebar
