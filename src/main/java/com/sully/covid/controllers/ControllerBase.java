@@ -54,10 +54,11 @@ public abstract class ControllerBase<ENTITY extends ModelBase, REPOSITORY extend
         return editTemplate;
     }
 
-    public String viewOne(Model model, @PathVariable long id) {
+    public String viewOne(Model model, long id, String success) {
         ENTITY entity = this.service.get(id);
         model.addAttribute(attributeName, entity);
         model.addAttribute("active", path);
+        model.addAttribute("success", success);
         return editTemplate;
     }
 
@@ -90,22 +91,23 @@ public abstract class ControllerBase<ENTITY extends ModelBase, REPOSITORY extend
     }
 
 
-    public String save(Model model, @ModelAttribute ENTITY entity) {
+    public RedirectView save(Model model, RedirectAttributes redirectAttributes, @ModelAttribute ENTITY entity) {
         try {
             this.service.save(entity);
+            redirectAttributes.addAttribute("success", true);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:/" + path + "/" + entity.getId();
+        return new RedirectView("/" + path + "/" + entity.getId());
     }
 
     public RedirectView delete(@PathVariable long id, RedirectAttributes model) {
         try {
             this.service.delete(id);
+            model.addAttribute("success", true);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        model.addAttribute("success", true);
         return new RedirectView("/" + path);
     }
 

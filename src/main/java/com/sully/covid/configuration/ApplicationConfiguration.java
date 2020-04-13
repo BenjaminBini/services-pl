@@ -2,6 +2,7 @@ package com.sully.covid.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,6 +24,7 @@ import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Configuration
+@EnableJpaAuditing
 public class ApplicationConfiguration implements WebMvcConfigurer {
 
     @Override

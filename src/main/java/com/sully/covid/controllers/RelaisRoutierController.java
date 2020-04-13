@@ -46,14 +46,14 @@ public class RelaisRoutierController extends ControllerBase<RelaisRoutier, Relai
 
     @Override
     @GetMapping("/relais/{id}")
-    public String viewOne(Model model, @PathVariable long id) {
-        return super.viewOne(model, id);
+    public String viewOne(Model model, @PathVariable long id, @RequestParam(defaultValue = "false", required = false) String success) {
+        return super.viewOne(model, id, success);
     }
 
     @Override
     @PostMapping("/relais")
-    public String save(Model model, @ModelAttribute RelaisRoutier relais) {
-        return super.save(model, relais);
+    public RedirectView save(Model model, RedirectAttributes redirectAttributes, @ModelAttribute RelaisRoutier relais) {
+        return super.save(model, redirectAttributes, relais);
     }
 
     @Override

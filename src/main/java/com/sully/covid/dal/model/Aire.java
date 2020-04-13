@@ -4,9 +4,10 @@ import com.opencsv.bean.CsvBindByName;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Data
-@Entity(name = "aires")
+@Entity(name = "AIRES")
 public class Aire implements ModelBase {
 
     /**
@@ -165,5 +166,8 @@ public class Aire implements ModelBase {
     @Column(name = "Y")
     @CsvBindByName(column = "Y")
     private String y;
+
+    @OneToMany(mappedBy = "aire", fetch = FetchType.LAZY)
+    private Collection<PublicFormRequest> publicFormRequests;
 
 }

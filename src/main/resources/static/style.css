@@ -4,3 +4,20 @@
 
 @tailwind utilities;
 
+.tooltip .tooltip-text {
+    visibility: hidden;
+    position: absolute;
+    z-index: 100;
+    left: 120%;
+    top: 0;
+    width: 340px;
+}
+
+.tooltip {
+    display: inline-block;
+    position: relative;
+    cursor: help;
+}
+.tooltip:hover .tooltip-text {
+    visibility: visible;
+}

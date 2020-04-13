@@ -47,14 +47,14 @@ public class CentreCTController extends ControllerBase<CentreCT, CentreCTReposit
 
     @Override
     @GetMapping("/ct/{id}")
-    public String viewOne(Model model, @PathVariable long id) {
-        return super.viewOne(model, id);
+    public String viewOne(Model model, @PathVariable long id, @RequestParam(defaultValue = "false", required = false) String success) {
+        return super.viewOne(model, id, success);
     }
 
     @Override
     @PostMapping("/ct")
-    public String save(Model model, @ModelAttribute CentreCT ct) {
-        return super.save(model, ct);
+    public RedirectView save(Model model, RedirectAttributes redirectAttributes, @ModelAttribute CentreCT ct) {
+        return super.save(model, redirectAttributes, ct);
     }
 
     @Override

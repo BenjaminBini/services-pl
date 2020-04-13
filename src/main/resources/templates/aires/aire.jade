@@ -6,9 +6,15 @@ block content
             .mb-10.shadow.overflow-hidden(class="sm:rounded-md")
                 .bg-white.px-4.py-5.border-b.border-gray-200(class="sm:px-6")
                     .-ml-4.-mt-2.flex.items-center.justify-between.flex-wrap(class="sm:flex-no-wrap")
-                        .ml-4.mt-2
+                        .ml-4.mt-2.flex.items-center
                             h3.text-lg.leading-6.font-medium.text-gray-900
                                 | #{aire ? 'Aire : ' + aire.nomAire : 'Nouvelle aire'}
+                            - var requestsCount = aire.publicFormRequests.size()
+                            if (requestsCount > 0)
+                                span.inline-flex.items-center.ml-3.rounded-md.text-sm.font-medium.leading-5.bg-red-100.text-red-800(class="px-2.5 py-0.5")
+                                    svg.h-2.w-2.text-red-400(class="-ml-0.5 mr-1.5" fill="currentColor" viewbox="0 0 8 8")
+                                        circle(cx="4" cy="4" r="3")
+                                    | #{requestsCount} #{requestsCount > 1 ? 'demandes' : 'demande'}  de modifications
                         .ml-4.mt-2.flex-shrink-0
                             span.inline-flex.rounded-md.shadow-sm
                                 a.inline-flex.items-center.px-4.py-2.border.border-gray-300.text-sm.leading-5.font-medium.rounded-md.text-gray-700.bg-white.transition.ease-in-out.duration-150(href="/aire" class="hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50")
@@ -18,13 +24,24 @@ block content
                     +textInput('id', 'Identifiant', aire.id, true)
                     +textInput('nomAire', 'Nom', aire.nomAire)
                     +checkbox('statutOuvert', aire.statutOuvert, 'Ouvert', 'L\'aire est-elle actuellement ouverte ?')
+                    - var yesRequests = ag.requestsStatus['statutOuvertOui']
+                    - var noRequests = ag.requestsStatus['statutOuvertNon']
+                    if (yesRequests > 0)
+                        span.tooltip.mt-3.ml-7.inline-flex.items-center.rounded-md.text-sm.font-medium.leading-5(class="px-2.5 py-0.5 #{value ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}")
+                            | #{yesRequests} #{yesRequests > 1 ? 'disent' : 'dit'} oui
+                            span.tooltip-text.rounded-md.px-3.text-sm.font-medium.leading-5.bg-blue-100.text-blue-800(class="py-0.5") 
+                                each requestComment in ag.requestsComments['statutOuvertOui']
+                                    | #{requestComment}<br>
+                    if (noRequests > 0)
+                        span.tooltip.mt-3.ml-7.inline-flex.items-center.rounded-md.text-sm.font-medium.leading-5.ml-3(class="px-2.5 py-0.5 #{value ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'}")
+                            | #{noRequests} #{noRequests > 1 ? 'disent' : 'dit'} non
+                            span.tooltip-text.rounded-md.px-3.text-sm.font-medium.leading-5.bg-blue-100.text-blue-800(class="py-0.5") 
+                                each requestComment in ag.requestsComments['statutOuvertNon']
+                                    | #{requestComment}<br>
                     +checkbox('concession', aire.concession, 'Concession', 'L\'aire est-elle gérée par un concessionnaire ?')
                     +textInput('dirSca', 'Identifiant du gestionnaire', aire.dirSca)
                     +textInput('route', 'Route', aire.route)
                     +textInput('dep', 'Département', aire.dep)
-                    +textInput('com', 'Commentaire', aire.com)
-                    +textInput('x', 'X (Lambert 93)', aire.x)
-                    +textInput('y', 'Y (Lambert 93)', aire.y)
 
                     .mt-6
                         label.block.text-sm.font-medium.leading-5.text-gray-700 Type d'aire
@@ -41,151 +58,45 @@ block content
                                 input#typeInconnu.form-radio.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(name="typeAire" type="radio" value="-" checked=aire.typeAire == '-')
                                 label.ml-3(for="typeInconnu")
                                     span.block.text-sm.leading-5.font-medium.text-gray-700 - 
-                    .flex
-                        .mt-5.grid.grid-cols-1.rounded-lg.bg-white.overflow-hidden.shadow(class="md:grid-cols-3")
-                            div
-                                .px-4.py-5(class="sm:p-6")
-                                    label.block.text-sm.font-medium.leading-5.text-gray-700 Equipé de places poids-lourds
-                                    .mt-2
-                                        .flex.items-center
-                                            input#eqPlacesPlOui.form-radio.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(name="eqPlacesPl" type="radio" value="true" checked=aire.eqPlacesPl)
-                                            label.ml-3(for="eqPlacesPlOui")
-                                                span.block.text-sm.leading-5.font-medium.text-gray-700 Oui
-                                        .mt-2.flex.items-center
-                                            input#eqPlacesPlNon.form-radio.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(name="eqPlacesPl" type="radio" value="false" checked=!aire.eqPlacesPl)
-                                            label.ml-3(for="eqPlacesPlNon")
-                                                span.block.text-sm.leading-5.font-medium.text-gray-700 Non
-                                        .mt-2.flex.items-center
-                                            input#eqPlacesPlInconnu.form-radio.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(name="eqPlacesPl" type="radio" value="" checked=aire.eqPlacesPl==null)
-                                            label.ml-3(for="eqPlacesPlInconnu")
-                                                span.block.text-sm.leading-5.font-medium.text-gray-700 -
-                           
-                            .border-t.border-gray-200(class="md:border-0 md:border-l")
-                                .px-4.py-5(class="sm:p-6")
-                                    label.block.text-sm.font-medium.leading-5.text-gray-700 Equipé de sanitaires
-                                    .mt-2
-                                        .flex.items-center
-                                            input#eqSanitairesOui.form-radio.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(name="eqSanitaires" type="radio" value="true" checked=aire.eqSanitaires)
-                                            label.ml-3(for="eqSanitairesOui")
-                                                span.block.text-sm.leading-5.font-medium.text-gray-700 Oui
-                                        .mt-2.flex.items-center
-                                            input#eqSanitairesNon.form-radio.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(name="eqSanitaires" type="radio" value="false" checked=!aire.eqSanitaires)
-                                            label.ml-3(for="eqSanitairesNon")
-                                                span.block.text-sm.leading-5.font-medium.text-gray-700 Non
-                                        .mt-2.flex.items-center
-                                            input#eqSanitairesInconnu.form-radio.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(name="eqSanitaires" type="radio" value="" checked=aire.eqSanitaires==null)
-                                            label.ml-3(for="eqSanitairesInconnu")
-                                                span.block.text-sm.leading-5.font-medium.text-gray-700 -
-                            .border-t.border-gray-200(class="md:border-0 md:border-l")
-                                .px-4.py-5(class="sm:p-6")
-                                    label.block.text-sm.font-medium.leading-5.text-gray-700 Equipé de douches
-                                    .mt-2
-                                        .flex.items-center
-                                            input#eqDouchesOui.form-radio.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(name="eqDouches" type="radio" value="true" checked=aire.eqDouches)
-                                            label.ml-3(for="eqDouchesOui")
-                                                span.block.text-sm.leading-5.font-medium.text-gray-700 Oui
-                                        .mt-2.flex.items-center
-                                            input#eqDouchesNon.form-radio.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(name="eqDouches" type="radio" value="false" checked=!aire.eqDouches)
-                                            label.ml-3(for="eqDouchesNon")
-                                                span.block.text-sm.leading-5.font-medium.text-gray-700 Non
-                                        .mt-2.flex.items-center
-                                            input#eqDouchesInconnu.form-radio.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(name="eqDouches" type="radio" value="" checked=aire.eqDouches==null)
-                                            label.ml-3(for="eqDouchesInconnu")
-                                                span.block.text-sm.leading-5.font-medium.text-gray-700 -
-                            .border-t.border-gray-200(class="md:border-0 md:border-l")
-                                .px-4.py-5(class="sm:p-6")
-                                    label.block.text-sm.font-medium.leading-5.text-gray-700 Equipé de restaurant
-                                    .mt-2
-                                        .flex.items-center
-                                            input#eqRestauOui.form-radio.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(name="eqRestau" type="radio" value="true" checked=aire.eqRestau)
-                                            label.ml-3(for="eqRestauOui")
-                                                span.block.text-sm.leading-5.font-medium.text-gray-700 Oui
-                                        .mt-2.flex.items-center
-                                            input#eqRestauNon.form-radio.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(name="eqRestau" type="radio" value="false" checked=!aire.eqRestau)
-                                            label.ml-3(for="eqRestauNon")
-                                                span.block.text-sm.leading-5.font-medium.text-gray-700 Non
-                                        .mt-2.flex.items-center
-                                            input#eqRestauInconnu.form-radio.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(name="eqRestau" type="radio" value="" checked=aire.eqRestau==null)
-                                            label.ml-3(for="eqRestauInconnu")
-                                                span.block.text-sm.leading-5.font-medium.text-gray-700 -
-                            .border-t.border-gray-200(class="md:border-0 md:border-l")
-                                .px-4.py-5(class="sm:p-6")
-                                    label.block.text-sm.font-medium.leading-5.text-gray-700 Equipé de pompe poids-lourd
-                                    .mt-2
-                                        .flex.items-center
-                                            input#eqCarbuPlOui.form-radio.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(name="eqCarbuPl" type="radio" value="true" checked=aire.eqCarbuPl)
-                                            label.ml-3(for="eqCarbuPlOui")
-                                                span.block.text-sm.leading-5.font-medium.text-gray-700 Oui
-                                        .mt-2.flex.items-center
-                                            input#eqCarbuPlNon.form-radio.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(name="eqCarbuPl" type="radio" value="false" checked=!aire.eqCarbuPl)
-                                            label.ml-3(for="eqCarbuPlNon")
-                                                span.block.text-sm.leading-5.font-medium.text-gray-700 Non
-                                        .mt-2.flex.items-center
-                                            input#eqCarbuPlInconnu.form-radio.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(name="eqCarbuPl" type="radio" value="" checked=aire.eqCarbuPl==null)
-                                            label.ml-3(for="eqCarbuPlInconnu")
-                                                span.block.text-sm.leading-5.font-medium.text-gray-700 -
-                            .border-t.border-gray-200(class="md:border-0 md:border-l")
-                                .px-4.py-5(class="sm:p-6")
-                                    label.block.text-sm.font-medium.leading-5.text-gray-700 Sanitaires en service
-                                    .mt-2
-                                        .flex.items-center
-                                            input#servSanitairesOui.form-radio.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(name="servSanitaires" type="radio" value="true" checked=aire.servSanitaires)
-                                            label.ml-3(for="servSanitairesOui")
-                                                span.block.text-sm.leading-5.font-medium.text-gray-700 Oui
-                                        .mt-2.flex.items-center
-                                            input#servSanitairesNon.form-radio.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(name="servSanitaires" type="radio" value="false" checked=!aire.servSanitaires)
-                                            label.ml-3(for="servSanitairesNon")
-                                                span.block.text-sm.leading-5.font-medium.text-gray-700 Non
-                                        .mt-2.flex.items-center
-                                            input#servSanitairesInconnu.form-radio.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(name="servSanitaires" type="radio" value="" checked=aire.servSanitaires==null)
-                                            label.ml-3(for="servSanitairesInconnu")
-                                                span.block.text-sm.leading-5.font-medium.text-gray-700 -
-                            .border-t.border-gray-200(class="md:border-0 md:border-l")
-                                .px-4.py-5(class="sm:p-6")
-                                    label.block.text-sm.font-medium.leading-5.text-gray-700 Douches en service
-                                    .mt-2
-                                        .flex.items-center
-                                            input#servDouchesOui.form-radio.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(name="servDouches" type="radio" value="true" checked=aire.servDouches)
-                                            label.ml-3(for="servDouchesOui")
-                                                span.block.text-sm.leading-5.font-medium.text-gray-700 Oui
-                                        .mt-2.flex.items-center
-                                            input#servDouchesNon.form-radio.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(name="servDouches" type="radio" value="false" checked=!aire.servDouches)
-                                            label.ml-3(for="servDouchesNon")
-                                                span.block.text-sm.leading-5.font-medium.text-gray-700 Non
-                                        .mt-2.flex.items-center
-                                            input#servDouchesInconnu.form-radio.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(name="servDouches" type="radio" value="" checked=aire.servDouches==null)
-                                            label.ml-3(for="servDouchesInconnu")
-                                                span.block.text-sm.leading-5.font-medium.text-gray-700 -
-                            .border-t.border-gray-200(class="md:border-0 md:border-l")
-                                .px-4.py-5(class="sm:p-6")
-                                    label.block.text-sm.font-medium.leading-5.text-gray-700 Restaurant en service
-                                    .mt-2
-                                        .flex.items-center
-                                            input#servRestauOui.form-radio.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(name="servRestau" type="radio" value="true" checked=aire.servRestau)
-                                            label.ml-3(for="servRestauOui")
-                                                span.block.text-sm.leading-5.font-medium.text-gray-700 Oui
-                                        .mt-2.flex.items-center
-                                            input#servRestauNon.form-radio.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(name="servRestau" type="radio" value="false" checked=!aire.servRestau)
-                                            label.ml-3(for="servRestauNon")
-                                                span.block.text-sm.leading-5.font-medium.text-gray-700 Non
-                                        .mt-2.flex.items-center
-                                            input#servRestauInconnu.form-radio.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(name="servRestau" type="radio" value="" checked=aire.servRestau==null)
-                                            label.ml-3(for="servRestauInconnu")
-                                                span.block.text-sm.leading-5.font-medium.text-gray-700 -
-                            .border-t.border-gray-200(class="md:border-0 md:border-l")
-                                .px-4.py-5(class="sm:p-6")
-                                    label.block.text-sm.font-medium.leading-5.text-gray-700 Pompe poids-lourd en service
-                                    .mt-2
-                                        .flex.items-center
-                                            input#servCarbuPlOui.form-radio.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(name="servCarbuPl" type="radio" value="true" checked=aire.servCarbuPl)
-                                            label.ml-3(for="servCarbuPlOui")
-                                                span.block.text-sm.leading-5.font-medium.text-gray-700 Oui
-                                        .mt-2.flex.items-center
-                                            input#servCarbuPlNon.form-radio.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(name="servCarbuPl" type="radio" value="false" checked=!aire.servCarbuPl)
-                                            label.ml-3(for="servCarbuPlNon")
-                                                span.block.text-sm.leading-5.font-medium.text-gray-700 Non
-                                        .mt-2.flex.items-center
-                                            input#servCarbuPlInconnu.form-radio.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(name="servCarbuPl" type="radio" value="" checked=aire.servCarbuPl==null)
-                                            label.ml-3(for="servCarbuPlInconnu")
+
+                    .mt-3
+                        +inlineTriStateRadio(true, 'eqPlacesPl', aire.eqPlacesPl, 'Stationnement poids lourds', 'L\'aire est-elle équipée de places de stationnements poids lourds ?')
+                    
+                    
+                    div.flex.flex-wrap(class="my-3 -mx-3")
+                        .w-full(class="xl:w-1/2 mt-3 px-3")
+                            .bg-white.shadow.rounder-lg.w-full
+                                .border-b.border-gray-200.px-4.py-5(class="sm:px-6")
+                                    h3(class="leading-4 font-medium text-gray-900") Sanitaires
+                                div(class="px-4 py-5 sm:p-6 -mt-6")
+                                    +inlineTriStateRadio(true, 'eqSanitaires', aire.eqSanitaires, "Sanitaires", "L'aire est-elle équipée de sanitaires ?")
+                                    +inlineTriStateRadio(true, 'servSanitaires', aire.servSanitaires, "Sanitaires ouverts", "Les sanitaires sont-ils ouverts sur cette aire ?")
+
+                        .w-full(class="xl:w-1/2 mt-3 px-3")
+                            .bg-white.shadow.rounder-lg.w-full
+                                .border-b.border-gray-200.px-4.py-5(class="sm:px-6")
+                                    h3(class="leading-4 font-medium text-gray-900") Douches
+                                div(class="px-4 py-5 sm:p-6 -mt-6")
+                                    +inlineTriStateRadio(true, 'eqDouches', aire.eqDouches, 'Douches', 'L\'aire est-elle équipée de douches ?')
+                                    +inlineTriStateRadio(true, 'servDouches', aire.servDouches, 'Douches ouverts', 'Les douches sont-elles ouvertes sur cette aire ?')
+                        .w-full(class="xl:w-1/2 mt-3 px-3")
+                            .bg-white.shadow.rounder-lg.w-full
+                                .border-b.border-gray-200.px-4.py-5(class="sm:px-6")
+                                    h3(class="leading-4 font-medium text-gray-900") Restauration rapide / Vente à emporter
+                                div(class="px-4 py-5 sm:p-6 -mt-6")
+                                    +inlineTriStateRadio(true, 'eqRestau', aire.eqRestau, 'Restauration', 'L\'aire est-elle équipée de restauration rapide / vente à emporter ?')
+                                    +inlineTriStateRadio(true, 'servRestau', aire.servRestau, 'Restauration ouverte', 'La restauration rapide / vente à emporter est-elle ouverte sur cette aire ?')
+                        .w-full(class="xl:w-1/2 mt-3 px-3")
+                            .bg-white.shadow.rounder-lg.w-full
+                                .border-b.border-gray-200.px-4.py-5(class="sm:px-6")
+                                    h3(class="leading-4 font-medium text-gray-900") Pompe poids lourds
+                                div(class="px-4 py-5 sm:p-6 -mt-6")
+                                    +inlineTriStateRadio(true, 'eqCarbuPl', aire.eqCarbuPl, 'Pompe poids lourds', 'L\'aire est-elle équipée d\'une pompe poids lourds ?')
+                                    +inlineTriStateRadio(true, 'servCarbuPl', aire.servCarbuPl, 'Pompe en service', 'La pompe poids lourds est-elle en service sur cette aire ?')
+
+
+                    +textInput('com', 'Commentaire', aire.com)
+                    +textInput('x', 'X (Lambert 93)', aire.x)
+                    +textInput('y', 'Y (Lambert 93)', aire.y)
                 
                 +formFooter("aire", aire.id)

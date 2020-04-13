@@ -1,0 +1,91 @@
+extends ../layouts/public
+
+block content
+    div
+        .bg-gray-800.pb-32
+            header.py-10
+                .max-w-7xl.mx-auto.px-4(class="sm:px-6 lg:px-8")
+                    h1.text-3xl.leading-9.font-bold.text-white
+                        | Demande de mise à jour des informations publiées
+        main.-mt-32
+            form(action="" method="POST")
+                .max-w-7xl.mx-auto.pb-12.px-4(class="sm:px-6 lg:px-8")
+                    // Replace with your content
+                    
+                    div(class="bg-white overflow-hidden shadow rounded-lg")
+                        div(class="border-b border-gray-200 px-4 py-5 sm:px-6")
+                            h3(class="text-lg leading-6 font-medium text-gray-900") 
+                                if dep == null 
+                                    | Veuillez choisir votre département
+                                else if (dep != null && route == null)
+                                    | Veuillez choisir votre route
+                                else if (dep != null && route != null && aire == null)
+                                    | Veuillez choisir l'aire concernée
+                                else if aire != null
+                                    | Demande concernant l'aire : #{aire.nomAire}
+                        div(class="px-4 py-5 sm:p-6")
+
+                            if dep == null
+                                .w-full(class="md:w-1/2 lg:w-1/3 mt-3")
+                                    +select('dep', 'Département', departements, '', true, true)
+                                
+                            if (dep != null && route == null)
+                                .w-full(class="md:w-1/2 lg:w-1/3 mt-3")
+                                    +select('route', 'Route', routes, '', true, true)
+
+                            if (dep != null && route != null && aire == null)
+                                .w-full(class="md:w-1/2 lg:w-1/3 mt-3")
+                                    +select('aireId', 'Aire', aires, '', true, true)
+
+                            if (aire != null)
+                                +hiddenInput("aireChoisie", "true")
+                                +hiddenInput("aireId", aireId)
+                                .-mt-3
+                                    +checkbox('statutOuvert', aire.statutOuvert, 'Ouvert', 'L\'aire est-elle actuellement ouverte ?')
+                                .mt-3
+                                    +checkbox('eqPlacesPl', aire.eqPlacesPl, 'Stationnement poids lourds', 'L\'aire est-elle équipée de places de stationnements poids lourds ?')
+                                div.flex.flex-wrap(class="my-3 -mx-3")
+                                    .w-full(class="md:w-1/2 mt-3 px-3")
+                                        .bg-white.overflow-hidden.shadow.rounder-lg.w-full
+                                            .border-b.border-gray-200.px-4.py-5(class="sm:px-6")
+                                                h3(class="leading-4 font-medium text-gray-900") Sanitaires
+                                            div(class="px-4 py-5 sm:p-6 -mt-6")
+                                                +checkbox('eqSanitaires', aire.eqSanitaires, 'Sanitaires', 'L\'aire est-elle équipée de sanitaires ?')
+                                                +checkbox('servSanitaires', aire.servSanitaires, 'Sanitaires ouverts', 'Les sanitaires sont-ils ouverts sur cette aire ?')
+
+                                    .w-full(class="md:w-1/2 mt-3 px-3")
+                                        .bg-white.overflow-hidden.shadow.rounder-lg.w-full
+                                            .border-b.border-gray-200.px-4.py-5(class="sm:px-6")
+                                                h3(class="leading-4 font-medium text-gray-900") Douches
+                                            div(class="px-4 py-5 sm:p-6 -mt-6")
+                                                +checkbox('eqDouches', aire.eqDouches, 'Douches', 'L\'aire est-elle équipée de douches ?')
+                                                +checkbox('servDouches', aire.servDouches, 'Douches ouverts', 'Les douches sont-elles ouvertes sur cette aire ?')
+                                    .w-full(class="md:w-1/2 mt-3 px-3")
+                                        .bg-white.overflow-hidden.shadow.rounder-lg.w-full
+                                            .border-b.border-gray-200.px-4.py-5(class="sm:px-6")
+                                                h3(class="leading-4 font-medium text-gray-900") Restauration rapide / Vente à emporter
+                                            div(class="px-4 py-5 sm:p-6 -mt-6")
+                                                +checkbox('eqRestau', aire.eqRestau, 'Restauration', 'L\'aire est-elle équipée de restauration rapide / vente à emporter ?')
+                                                +checkbox('servRestau', aire.servRestau, 'Restauration ouverte', 'La restauration rapide / vente à emporter est-elle ouverte sur cette aire ?')
+                                    .w-full(class="md:w-1/2 mt-3 px-3")
+                                        .bg-white.overflow-hidden.shadow.rounder-lg.w-full
+                                            .border-b.border-gray-200.px-4.py-5(class="sm:px-6")
+                                                h3(class="leading-4 font-medium text-gray-900") Pompe poids lourds
+                                            div(class="px-4 py-5 sm:p-6 -mt-6")
+                                                +checkbox('eqCarbuPl', aire.eqCarbuPl, 'Pompe poids lourds', 'L\'aire est-elle équipée d\'une pompe poids lourds ?')
+                                                +checkbox('servCarbuPl', aire.servCarbuPl, 'Pompe en service', 'La pompe poids lourds est-elle en service sur cette aire ?')
+
+                                    .w-full(class="md:w-1/2 mt-6")
+                                        label.block.text-sm.font-medium.leading-5.text-gray-700(for="com") Commentaire
+                                        .mt-1.relative.rounded-md.shadow-sm
+                                            input.form-input.block.w-full(id="com" name="com" class="sm:text-sm sm:leading-5")
+
+                        div(class="border-t border-gray-200 px-4 py-4 sm:px-6 text-right bg-gray-50")
+                            if(dep != null)
+                                a.inline-flex.items-center.px-4.py-2.border.border-gray-300.text-sm.leading-5.font-medium.rounded-md.text-gray-700.bg-white.transition.ease-in-out.duration-150(href="/public-form" class="hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50") Annuler
+
+                            button.ml-3.py-2.px-4.border.border-transparent.text-sm.leading-5.font-medium.rounded-md.text-white.bg-indigo-600.shadow-sm.transition.duration-150.ease-in-out(class="hover:bg-indigo-500 focus:outline-none focus:shadow-outline-blue active:bg-indigo-600") 
+                                if aire != null
+                                    | Enregistrer
+                                else
+                                    | Suivant

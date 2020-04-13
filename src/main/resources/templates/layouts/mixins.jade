@@ -1,22 +1,69 @@
 mixin textInput(name, label, value, readonly)
     .flex.items-start.mt-6
         .col-span-6(class="sm:col-span-2")
-            label.block.text-sm.font-medium.leading-5.text-gray-700(for="dep") #{label}
+            label.block.text-sm.font-medium.leading-5.text-gray-700(for=name) #{label}
             .mt-1.relative.rounded-md.shadow-sm
                 if readonly
                     input.form-input.block.w-full.bg-gray-50.text-gray-500(class="sm:text-sm" value=value readonly)
                 else
-                    input.form-input.block.w-full(name="#{name}", class="sm:text-sm sm:leading-5" placeholder="", value=value)
+                    input.form-input.block.w-full(id=name name=name, class="sm:text-sm sm:leading-5" placeholder="", value=value)
                     
-
-
 mixin checkbox(name, isChecked, label, explanation)
-    .relative.flex.items-start.mt-6
+    .relative.flex.items-start(class=removeMargin ? '' : 'mt-6')
         .absolute.flex.items-center.h-5
             input.form-checkbox.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(id=name name=name type="checkbox" checked=isChecked)
         .pl-7.text-sm.leading-5
             label.font-medium.text-gray-700(for=name) #{label}
             p.text-gray-500 #{explanation}
+
+mixin inlineTriStateRadio(showRequests, name, value, label, explanation)
+    .relative.flex.items-start(class=removeMargin ? '' : 'mt-6')
+        .text-sm.leading-5
+            label.font-medium.text-gray-700(for=name) #{label}
+            p.text-gray-500 #{explanation}
+    .mt-2.flex.items-center
+        .flex.items-center.mr-4
+            input.form-radio.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(id="#{name}Oui" name=name type="radio" value="true" checked=value)
+            label.ml-2(for="#{name}Oui")
+                span.block.text-sm.leading-5.font-medium.text-gray-700 Oui
+        .flex.items-center.mr-4
+            input.form-radio.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(id="#{name}Non" name=name type="radio" value="false" checked=!value)
+            label.ml-2(for="#{name}Non")
+                span.block.text-sm.leading-5.font-medium.text-gray-700 Non
+        .flex.items-center.mr-4
+            input.form-radio.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(id="#{name}Inconnu" name=name type="radio" value="" checked=value==null)
+            label.ml-2(for="#{name}Inconnu")
+                span.block.text-sm.leading-5.font-medium.text-gray-700 -
+        if showRequests
+            - var yesRequests = ag.requestsStatus[name + 'Oui']
+            - var noRequests = ag.requestsStatus[name + 'Non']
+            if (yesRequests > 0)
+                span.tooltip.inline-flex.items-center.rounded-md.text-sm.font-medium.leading-5(class="px-2.5 py-0.5 #{value ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}")
+                    | #{yesRequests} #{yesRequests > 1 ? 'disent' : 'dit'} oui
+                    span.tooltip-text.rounded-md.px-3.text-sm.font-medium.leading-5.bg-blue-100.text-blue-800(class="py-0.5") 
+                        each requestComment in ag.requestsComments[name + 'Oui']
+                            | #{requestComment}<br>
+            if (noRequests > 0)
+                span.tooltip.inline-flex.items-center.rounded-md.text-sm.font-medium.leading-5.ml-3(class="px-2.5 py-0.5 #{value ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'}")
+                    | #{noRequests} #{noRequests > 1 ? 'disent' : 'dit'} non
+                    span.tooltip-text.rounded-md.px-3.text-sm.font-medium.leading-5.bg-blue-100.text-blue-800(class="py-0.5") 
+                        each requestComment in ag.requestsComments[name + 'Non']
+                            | #{requestComment}<br>
+mixin select(name, label, options, selectedValue, emptyOption, required)
+    div(class="sm:col-span-3 col-span-6 sm:col-span-2")
+        label.block.text-sm.font-medium.leading-5.text-gray-700(for=name)
+            | #{label}
+            if required
+                span.text-red-600 *
+        .mt-1.rounded-md.shadow-sm
+            select#country.form-select.block.w-full.transition.duration-150.ease-in-out(name=name class="sm:text-sm sm:leading-5" required=required)
+                if (emptyOption)
+                    option
+                each option in options
+                    +selectOption(option.key, selectedValue.equals(option.key), option.value)
+
+mixin selectOption(value, isSelected, label)
+    option(value=value selected=isSelected) #{label}
 
 mixin hiddenInput(name, value)
     if (value)

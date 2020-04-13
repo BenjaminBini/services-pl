@@ -11,8 +11,13 @@ import org.geojson.GeoJsonObject;
 import org.geojson.Point;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AireService extends ServiceBase<AireRepository, Aire> {
@@ -24,11 +29,33 @@ public class AireService extends ServiceBase<AireRepository, Aire> {
 
     @Override
     public Page<Aire> search(Pageable pageable, String keyword, String filter) {
+        Page<Aire> aires = null;
+        Sort sort;
         if (filter != null) {
-            return this.repository.findByNomAireContainingAndDirSca(keyword, filter, pageable);
+            //aires = this.repository.search(keyword, filter,
+            //        pageable.getSort().get().findFirst().get().getProperty(),
+            //       pageable.getSort().get().findFirst().get().getDirection() == Sort.Direction.DESC ? "DESC" : "ASC");
         } else {
-            return this.repository.findByNomAireContaining(keyword, pageable);
+            String sortProperty = pageable.getSort().get().findFirst().get().getProperty();
+            String sortColumn;
+            switch (sortProperty) {
+                case "nomAire":
+                    sortColumn = "NOM_AIRE";
+                    break;
+                case "statutOuvert":
+                    sortColumn = "STATUT_OUVERT";
+                    break;
+                default:
+                    sortColumn = "ID";
+            }
+            if (pageable.getSort().get().findFirst().get().getDirection() == Sort.Direction.DESC) {
+                sort = Sort.by(Sort.Order.desc("requestsCount"), Sort.Order.desc(sortColumn));
+            } else {
+                sort = Sort.by(Sort.Order.desc("requestsCount"), Sort.Order.asc(sortColumn));
+            }
+            aires = this.repository.search(keyword, PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort));
         }
+        return aires;
 
     }
 
@@ -61,5 +88,22 @@ public class AireService extends ServiceBase<AireRepository, Aire> {
             featureCollection.add(feature);
         }
         return featureCollection;
+    }
+
+    public List<String> getRoutes(String dep) {
+        return this.getAll().stream()
+                .filter(a -> dep == null || a.getDep().equals(dep))
+                .map(Aire::getRoute)
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
+    public List<String> getDepartements() {
+        return this.getAll().stream()
+                .map(Aire::getDep)
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
     }
 }

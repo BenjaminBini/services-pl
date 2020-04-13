@@ -6,6 +6,7 @@ import com.sully.covid.dal.model.User;
 import com.sully.covid.dal.repository.AireRepository;
 import com.sully.covid.dal.service.AireService;
 import com.sully.covid.util.Entry;
+import com.sully.covid.util.RequestsAggregate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -19,7 +20,6 @@ import java.util.List;
 
 @Controller
 public class AireController extends ControllerBase<Aire, AireRepository> {
-
 
     @Autowired
     public AireController(AireService aireService) {
@@ -53,14 +53,18 @@ public class AireController extends ControllerBase<Aire, AireRepository> {
 
     @Override
     @GetMapping("/aire/{id}")
-    public String viewOne(Model model, @PathVariable long id) {
-        return super.viewOne(model, id);
+    public String viewOne(Model model, @PathVariable long id, @RequestParam(defaultValue = "false", required = false) String success) {
+        String view = super.viewOne(model, id, success);
+        Aire aire = (Aire) model.getAttribute("aire");
+        RequestsAggregate ag = RequestsAggregate.fromAire(aire);
+        model.addAttribute("ag", ag);
+        return view;
     }
 
     @Override
     @PostMapping("/aire")
-    public String save(Model model, @ModelAttribute Aire aire) {
-        return super.save(model, aire);
+    public RedirectView save(Model model, RedirectAttributes redirectAttributes, @ModelAttribute Aire aire) {
+        return super.save(model, redirectAttributes, aire);
     }
 
     @Override
