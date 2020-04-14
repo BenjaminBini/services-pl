@@ -5,6 +5,7 @@ import com.sully.covid.dal.model.Aire;
 import com.sully.covid.dal.model.User;
 import com.sully.covid.dal.repository.AireRepository;
 import com.sully.covid.dal.service.AireService;
+import com.sully.covid.dal.service.PublicFormRequestService;
 import com.sully.covid.util.Entry;
 import com.sully.covid.util.RequestsAggregate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,10 @@ import java.util.List;
 @Controller
 public class AireController extends ControllerBase<Aire, AireRepository> {
 
+    private final PublicFormRequestService publicFormRequestService;
+
     @Autowired
-    public AireController(AireService aireService) {
+    public AireController(AireService aireService, PublicFormRequestService publicFormRequestService) {
         super(Aire.class,
                 "aires/aire",
                 "aires/aires",
@@ -31,6 +34,7 @@ public class AireController extends ControllerBase<Aire, AireRepository> {
                 List.of(new Entry("id", "id"), new Entry("nomAire", "nom"), new Entry("statutOuvert", "statut")),
                 List.of(new Entry("id", "Id"), new Entry("nomAire", "Nom"), new Entry("com", "Commentaire"), new Entry("statutOuvert", "Statut")));
         this.service = aireService;
+        this.publicFormRequestService = publicFormRequestService;
     }
 
     @GetMapping("/aire")
@@ -71,6 +75,16 @@ public class AireController extends ControllerBase<Aire, AireRepository> {
     @GetMapping("/aire/{id}/delete")
     public RedirectView delete(@PathVariable long id, RedirectAttributes model) {
         return super.delete(id, model);
+    }
+
+    @GetMapping("/aire/{id}/delete-requests")
+    public RedirectView deleteRequests(@PathVariable long id, RedirectAttributes model) {
+        Aire aire = this.service.get(id);
+        if (aire != null) {
+            aire.getPublicFormRequests().forEach(r -> this.publicFormRequestService.delete(r.getId()));
+        }
+        model.addAttribute("success", true);
+        return new RedirectView("/" + path + "/" + id);
     }
 
     @Override

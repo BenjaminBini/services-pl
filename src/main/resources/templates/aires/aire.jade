@@ -1,6 +1,7 @@
 extends ../layouts/layout
 
 block content
+    - var requestsCount = aire != null ? aire.publicFormRequests.size() : 0
     .mt-10(class="sm:mt-0")
         form(action="/aire" method="POST")
             .mb-10.shadow.overflow-hidden(class="sm:rounded-md")
@@ -9,7 +10,6 @@ block content
                         .ml-4.mt-2.flex.items-center
                             h3.text-lg.leading-6.font-medium.text-gray-900
                                 | #{aire ? 'Aire : ' + aire.nomAire : 'Nouvelle aire'}
-                            - var requestsCount = aire.publicFormRequests.size()
                             if (requestsCount > 0)
                                 span.inline-flex.items-center.ml-3.rounded-md.text-sm.font-medium.leading-5.bg-red-100.text-red-800(class="px-2.5 py-0.5")
                                     svg.h-2.w-2.text-red-400(class="-ml-0.5 mr-1.5" fill="currentColor" viewbox="0 0 8 8")
@@ -23,22 +23,8 @@ block content
                     +hiddenInput('id', aire.id)
                     +textInput('id', 'Identifiant', aire.id, true)
                     +textInput('nomAire', 'Nom', aire.nomAire)
-                    +checkbox('statutOuvert', aire.statutOuvert, 'Ouvert', 'L\'aire est-elle actuellement ouverte ?')
-                    - var yesRequests = ag.requestsStatus['statutOuvertOui']
-                    - var noRequests = ag.requestsStatus['statutOuvertNon']
-                    if (yesRequests > 0)
-                        span.tooltip.mt-3.ml-7.inline-flex.items-center.rounded-md.text-sm.font-medium.leading-5(class="px-2.5 py-0.5 #{value ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}")
-                            | #{yesRequests} #{yesRequests > 1 ? 'disent' : 'dit'} oui
-                            span.tooltip-text.rounded-md.px-3.text-sm.font-medium.leading-5.bg-blue-100.text-blue-800(class="py-0.5") 
-                                each requestComment in ag.requestsComments['statutOuvertOui']
-                                    | #{requestComment}<br>
-                    if (noRequests > 0)
-                        span.tooltip.mt-3.ml-7.inline-flex.items-center.rounded-md.text-sm.font-medium.leading-5.ml-3(class="px-2.5 py-0.5 #{value ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'}")
-                            | #{noRequests} #{noRequests > 1 ? 'disent' : 'dit'} non
-                            span.tooltip-text.rounded-md.px-3.text-sm.font-medium.leading-5.bg-blue-100.text-blue-800(class="py-0.5") 
-                                each requestComment in ag.requestsComments['statutOuvertNon']
-                                    | #{requestComment}<br>
-                    +checkbox('concession', aire.concession, 'Concession', 'L\'aire est-elle gérée par un concessionnaire ?')
+                    +inlineRadio(false, true, 'statutOuvert', aire.statutOuvert, 'Ouvert', 'L\'aire est-elle actuellement ouverte ?')
+                    +inlineRadio(false, false, 'concession', aire.concession, 'Concession', 'L\'aire est-elle gérée par un concessionnaire ?')
                     +textInput('dirSca', 'Identifiant du gestionnaire', aire.dirSca)
                     +textInput('route', 'Route', aire.route)
                     +textInput('dep', 'Département', aire.dep)
@@ -60,43 +46,83 @@ block content
                                     span.block.text-sm.leading-5.font-medium.text-gray-700 - 
 
                     .mt-3
-                        +inlineTriStateRadio(true, 'eqPlacesPl', aire.eqPlacesPl, 'Stationnement poids lourds', 'L\'aire est-elle équipée de places de stationnements poids lourds ?')
+                        +inlineRadio(true, true, 'eqPlacesPl', aire.eqPlacesPl, 'Stationnement poids lourds', 'L\'aire est-elle équipée de places de stationnements poids lourds ?')
                     
                     
                     div.flex.flex-wrap(class="my-3 -mx-3")
                         .w-full(class="xl:w-1/2 mt-3 px-3")
-                            .bg-white.shadow.rounder-lg.w-full
+                            .bg-white.shadow.rounded-lg.w-full.overflow-hidden
                                 .border-b.border-gray-200.px-4.py-5(class="sm:px-6")
                                     h3(class="leading-4 font-medium text-gray-900") Sanitaires
                                 div(class="px-4 py-5 sm:p-6 -mt-6")
-                                    +inlineTriStateRadio(true, 'eqSanitaires', aire.eqSanitaires, "Sanitaires", "L'aire est-elle équipée de sanitaires ?")
-                                    +inlineTriStateRadio(true, 'servSanitaires', aire.servSanitaires, "Sanitaires ouverts", "Les sanitaires sont-ils ouverts sur cette aire ?")
+                                    +inlineRadio(true, true, 'eqSanitaires', aire.eqSanitaires, "Sanitaires", "L'aire est-elle équipée de sanitaires ?")
+                                    +inlineRadio(true, true, 'servSanitaires', aire.servSanitaires, "Sanitaires ouverts", "Les sanitaires sont-ils ouverts sur cette aire ?")
 
                         .w-full(class="xl:w-1/2 mt-3 px-3")
-                            .bg-white.shadow.rounder-lg.w-full
+                            .bg-white.shadow.rounded-lg.w-full.overflow-hidden
                                 .border-b.border-gray-200.px-4.py-5(class="sm:px-6")
                                     h3(class="leading-4 font-medium text-gray-900") Douches
                                 div(class="px-4 py-5 sm:p-6 -mt-6")
-                                    +inlineTriStateRadio(true, 'eqDouches', aire.eqDouches, 'Douches', 'L\'aire est-elle équipée de douches ?')
-                                    +inlineTriStateRadio(true, 'servDouches', aire.servDouches, 'Douches ouverts', 'Les douches sont-elles ouvertes sur cette aire ?')
+                                    +inlineRadio(true, true, 'eqDouches', aire.eqDouches, 'Douches', 'L\'aire est-elle équipée de douches ?')
+                                    +inlineRadio(true, true, 'servDouches', aire.servDouches, 'Douches ouverts', 'Les douches sont-elles ouvertes sur cette aire ?')
                         .w-full(class="xl:w-1/2 mt-3 px-3")
-                            .bg-white.shadow.rounder-lg.w-full
+                            .bg-white.shadow.rounded-lg.w-full.overflow-hidden
                                 .border-b.border-gray-200.px-4.py-5(class="sm:px-6")
                                     h3(class="leading-4 font-medium text-gray-900") Restauration rapide / Vente à emporter
                                 div(class="px-4 py-5 sm:p-6 -mt-6")
-                                    +inlineTriStateRadio(true, 'eqRestau', aire.eqRestau, 'Restauration', 'L\'aire est-elle équipée de restauration rapide / vente à emporter ?')
-                                    +inlineTriStateRadio(true, 'servRestau', aire.servRestau, 'Restauration ouverte', 'La restauration rapide / vente à emporter est-elle ouverte sur cette aire ?')
+                                    +inlineRadio(true, true, 'eqRestau', aire.eqRestau, 'Restauration', 'L\'aire est-elle équipée de restauration rapide / vente à emporter ?')
+                                    +inlineRadio(true, true, 'servRestau', aire.servRestau, 'Restauration ouverte', 'La restauration rapide / vente à emporter est-elle ouverte sur cette aire ?')
                         .w-full(class="xl:w-1/2 mt-3 px-3")
-                            .bg-white.shadow.rounder-lg.w-full
+                            .bg-white.shadow.rounded-lg.w-full.overflow-hidden
                                 .border-b.border-gray-200.px-4.py-5(class="sm:px-6")
                                     h3(class="leading-4 font-medium text-gray-900") Pompe poids lourds
                                 div(class="px-4 py-5 sm:p-6 -mt-6")
-                                    +inlineTriStateRadio(true, 'eqCarbuPl', aire.eqCarbuPl, 'Pompe poids lourds', 'L\'aire est-elle équipée d\'une pompe poids lourds ?')
-                                    +inlineTriStateRadio(true, 'servCarbuPl', aire.servCarbuPl, 'Pompe en service', 'La pompe poids lourds est-elle en service sur cette aire ?')
+                                    +inlineRadio(true, true, 'eqCarbuPl', aire.eqCarbuPl, 'Pompe poids lourds', 'L\'aire est-elle équipée d\'une pompe poids lourds ?')
+                                    +inlineRadio(true, true, 'servCarbuPl', aire.servCarbuPl, 'Pompe en service', 'La pompe poids lourds est-elle en service sur cette aire ?')
 
 
                     +textInput('com', 'Commentaire', aire.com)
                     +textInput('x', 'X (Lambert 93)', aire.x)
                     +textInput('y', 'Y (Lambert 93)', aire.y)
-                
+
+                    if requestsCount > 0
+
+                        .rounded-md.bg-yellow-50.p-4.mt-6.border-l-4.border-yellow-400(x-data="{ open: false }")
+                            .fixed.bottom-0.inset-x-0.px-4.pb-4( x-show="open" class="sm:inset-0 sm:flex sm:items-center sm:justify-center")
+                                .fixed.inset-0.transition-opacity(x-show="open" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0")
+                                    .absolute.inset-0.bg-gray-500.opacity-75
+                                .bg-white.rounded-lg.px-4.pt-5.pb-4.overflow-hidden.shadow-xl.transform.transition-all(x-show="open" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100" x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" class="sm:max-w-lg sm:w-full sm:p-6")
+                                    div(class="sm:flex sm:items-start")
+                                        .mx-auto.flex-shrink-0.flex.items-center.justify-center.h-12.w-12.rounded-full.bg-red-100(class="sm:mx-0 sm:h-10 sm:w-10")
+                                            svg.h-6.w-6.text-red-600(stroke="currentColor" fill="none" viewbox="0 0 24 24")
+                                                path(stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z")
+                                        .mt-3.text-center(class="sm:mt-0 sm:ml-4 sm:text-left")
+                                            h3.text-lg.leading-6.font-medium.text-gray-900
+                                                | Supprimer
+                                            .mt-2
+                                                p.text-sm.leading-5.text-gray-500
+                                                    | Êtes-vous certain de vouloir supprimer les demandes de modifications ?
+                                    .mt-5(class="sm:mt-4 sm:flex sm:flex-row-reverse")
+                                        span.flex.w-full.rounded-md.shadow-sm(class="sm:ml-3 sm:w-auto")
+                                            a.inline-flex.justify-center.w-full.rounded-md.border.border-transparent.px-4.py-2.bg-red-600.text-base.leading-6.font-medium.text-white.shadow-sm.transition.ease-in-out.duration-150(href="/aire/#{aire.id}/delete-requests" type="button" class="hover:bg-red-500 focus:outline-none focus:border-red-700 focus:shadow-outline-red sm:text-sm sm:leading-5")
+                                                | Supprimer
+                                        span.mt-3.flex.w-full.rounded-md.shadow-sm(class="sm:mt-0 sm:w-auto")
+                                            button.inline-flex.justify-center.w-full.rounded-md.border.border-gray-300.px-4.py-2.bg-white.text-base.leading-6.font-medium.text-gray-700.shadow-sm.transition.ease-in-out.duration-150(@click="open = false" type="button" class="hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline sm:text-sm sm:leading-5")
+                                                | Annuler
+                            .flex
+                                .flex-shrink-0
+                                    svg.h-5.w-5.text-yellow-400(fill="currentColor" viewbox="0 0 20 20")
+                                        path(fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd")
+                                .ml-3
+                                    h3.text-sm.leading-5.font-medium.text-yellow-800
+                                        | Demandes de modifications
+                                    .mt-2.text-sm.leading-5.text-yellow-700
+                                        ul.list-disc.pl-5
+                                            each request in aire.publicFormRequests
+                                                li #{request.commentForDisplay}
+                                    .mt-5
+                                        span.inline-flex.rounded-md.shadow-sm
+                                            button.inline-flex.items-center.px-4.py-2.border.border-gray-300.text-sm.leading-5.font-medium.rounded-md.text-gray-700.bg-white.transition.ease-in-out.duration-150(type="button" @click="open = true" class="hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50")
+                                                | Supprimer les demandes
+
                 +formFooter("aire", aire.id)

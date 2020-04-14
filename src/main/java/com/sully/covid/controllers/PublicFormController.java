@@ -42,7 +42,7 @@ public class PublicFormController {
                              @RequestParam(required = false) String route,
                              @RequestParam(required = false) String aireId,
                              @RequestParam(defaultValue = "false", required = false) String success) {
-        if (dep == null) {
+        if (dep == null && aireId == null) {
             Map<String, String> codeNomDepartement = listUtils.getDepartements();
             List<Entry> departements = new ArrayList<>();
             this.aireService.getDepartements().forEach(
@@ -54,7 +54,7 @@ public class PublicFormController {
             );
             departements.sort(Comparator.comparing(Entry::getValue));
             model.addAttribute("departements", departements);
-        } else if (route == null) {
+        } else if (dep != null && route == null && aireId == null) {
             model.addAttribute("routes", this.aireService.getRoutes(dep).stream()
                     .map(r -> new Entry(r, r)).collect(Collectors.toList()));
         } else if (aireId == null) {
