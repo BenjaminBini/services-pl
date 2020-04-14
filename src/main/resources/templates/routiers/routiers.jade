@@ -1,7 +1,7 @@
 extends ../layouts/list-layout
 
 block tableView
-    +table('Centres de contrôle technique', page, sortOptions, sort, dir, keyword, columns)
+    +table('Centres routiers', page, sortOptions, sort, dir, keyword, columns)
         each routier, index in routierListe
             tr(class=index % 2 == 0 ? 'bg-white' : 'bg-gray-50')
                 td.px-6.py-4.whitespace-no-wrap.text-sm.leading-5.text-gray-500
@@ -10,13 +10,6 @@ block tableView
                     | #{routier.nomCentre}
                 td.px-6.py-4.text-sm.leading-5.text-gray-500
                     | #{routier.com}
-                td.px-6.py-4.whitespace-no-wrap.text-sm.leading-5.text-gray-500
-                    if routier.statutOuvert
-                        .inline-flex.items-center.rounded-md.text-sm.font-medium.leading-5.bg-green-100.text-green-800(class="px-2.5 py-0.5")
-                            | Ouvert
-                    else
-                        .inline-flex.items-center.rounded-md.text-sm.font-medium.leading-5.bg-red-100.text-red-800(class="px-2.5 py-0.5")
-                            | Fermé
                 td.px-6.py-4.whitespace-no-wrap.text-right.text-sm.leading-5.font-medium
                     a.text-indigo-600(href='/routier/#{routier.id}' class="hover:text-indigo-900 focus:outline-none focus:underline") Modifier
                     

@@ -39,6 +39,7 @@ public class RelaisRoutierService extends ServiceBase<RelaisRoutierRepository, R
                 feature.setProperty("ADRESSE", relais.getAdresse());
                 feature.setProperty("TEL", relais.getTel());
                 feature.setProperty("COM", relais.getCom());
+                feature.setProperty("LIEN", relais.getLien());
                 feature.setProperty("Lat", relais.getLat());
                 feature.setProperty("Lon", relais.getLon());
                 featureCollection.add(feature);

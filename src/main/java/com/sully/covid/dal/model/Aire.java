@@ -1,6 +1,8 @@
 package com.sully.covid.dal.model;
 
 import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvCustomBindByName;
+import com.sully.covid.util.StringToBoolConverter;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -26,6 +28,7 @@ public class Aire implements ModelBase {
      */
     @Column(name = "CONCESSION")
     @CsvBindByName(column = "CONCESSION")
+    @CsvCustomBindByName(converter = StringToBoolConverter.class)
     private boolean concession;
 
     /**
@@ -42,7 +45,7 @@ public class Aire implements ModelBase {
      * False : non
      */
     @Column(name = "STATUT_OUVERT")
-    @CsvBindByName(column = "STATUT_OUVERT")
+    @CsvCustomBindByName(column = "STATUT_OUVERT", converter = StringToBoolConverter.class)
     private boolean statutOuvert;
 
     /**
@@ -81,21 +84,21 @@ public class Aire implements ModelBase {
      * L'aire est-elle équipée de stationnements pour les poids-lourds ?
      */
     @Column(name = "EQ_PLACESPL")
-    @CsvBindByName(column = "EQ_PLACESPL")
+    @CsvCustomBindByName(column = "EQ_PLACESPL", converter = StringToBoolConverter.class)
     private Boolean eqPlacesPl;
 
     /**
      * L'aire est-elle équipée de sanitaires ?
      */
     @Column(name = "EQ_SANITAIRES")
-    @CsvBindByName(column = "EQ_SANITAIRES")
+    @CsvCustomBindByName(column = "EQ_SANITAIRES", converter = StringToBoolConverter.class)
     private Boolean eqSanitaires;
 
     /**
      * L'aire est-elle équipée de douches
      */
     @Column(name = "EQ_DOUCHES")
-    @CsvBindByName(column = "EQ_DOUCHES")
+    @CsvCustomBindByName(column = "EQ_DOUCHES", converter = StringToBoolConverter.class)
     private Boolean eqDouches;
 
     /**
@@ -103,35 +106,35 @@ public class Aire implements ModelBase {
      * service de restauration rapide / à emporter
      */
     @Column(name = "EQ_RESTAU")
-    @CsvBindByName(column = "EQ_RESTAU")
+    @CsvCustomBindByName(column = "EQ_RESTAU", converter = StringToBoolConverter.class)
     private Boolean eqRestau;
 
     /**
      * L'aire est-elle équipée de pompes de distribution de carburant poids-lourd ?
      */
     @Column(name = "EQ_CARBU_PL")
-    @CsvBindByName(column = "EQ_CARBU_PL")
+    @CsvCustomBindByName(column = "EQ_CARBU_PL", converter = StringToBoolConverter.class)
     private Boolean eqCarbuPl;
 
     /**
      * Les sanitaires sont-ils en service actuellement ?
      */
     @Column(name = "SERV_SANITAIRES")
-    @CsvBindByName(column = "SERV_SANITAIRES")
+    @CsvCustomBindByName(column = "SERV_SANITAIRES", converter = StringToBoolConverter.class)
     private Boolean servSanitaires;
 
     /**
      * Les douches sont-elles en service actuellement ?
      */
     @Column(name = "SERV_DOUCHES")
-    @CsvBindByName(column = "SERV_DOUCHES")
+    @CsvCustomBindByName(column = "SERV_DOUCHES", converter = StringToBoolConverter.class)
     private Boolean servDouches;
 
     /**
      * La boutique ou le service de restauration rapide/à emporter est-il en service actuellement ?
      */
     @Column(name = "SERV_RESTAU")
-    @CsvBindByName(column = "SERV_RESTAU")
+    @CsvCustomBindByName(column = "SERV_RESTAU", converter = StringToBoolConverter.class)
     private Boolean servRestau;
 
     /**
@@ -139,13 +142,13 @@ public class Aire implements ModelBase {
      * "Oui" OU "Non" OU "-" (contraint), Si EQ_CARBU_PL est sur "Non" mettre "Non"
      */
     @Column(name = "SERV_CARBU_PL")
-    @CsvBindByName(column = "SERV_CARBU_PL")
+    @CsvCustomBindByName(column = "SERV_CARBU_PL", converter = StringToBoolConverter.class)
     private Boolean servCarbuPl;
 
     /**
      * Commentaires
      */
-    @Column(name = "COM")
+    @Column(name = "COM", length = 1000)
     @CsvBindByName(column = "COM")
     private String com;
 

@@ -1,6 +1,8 @@
 package com.sully.covid.dal.model;
 
 import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvCustomBindByName;
+import com.sully.covid.util.StringToBoolConverter;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -16,11 +18,11 @@ public class RelaisRoutier implements ModelBase {
     private long id;
 
     @Column(name = "Lat")
-    @CsvBindByName(column = "Lat")
+    @CsvBindByName(column = "lat")
     String lat;
 
     @Column(name = "Lon")
-    @CsvBindByName(column = "Lon")
+    @CsvBindByName(column = "lon")
     String lon;
 
     @Column(name = "DEP")
@@ -32,7 +34,7 @@ public class RelaisRoutier implements ModelBase {
     private String nom;
 
     @Column(name = "STATUT_OUVERT")
-    @CsvBindByName(column = "STATUT_OUVERT")
+    @CsvCustomBindByName(column = "STATUT_OUVERT", converter = StringToBoolConverter.class)
     private Boolean statutOuvert;
 
     @Column(name = "ADRESSE")
@@ -43,7 +45,11 @@ public class RelaisRoutier implements ModelBase {
     @CsvBindByName(column = "TEL")
     private String tel;
 
-    @Column(name = "COM")
+    @Column(name = "LIEN")
+    @CsvBindByName(column = "LIEN")
+    private String lien;
+
+    @Column(name = "COM", length = 1000)
     @CsvBindByName(column = "COM")
     private String com;
 }

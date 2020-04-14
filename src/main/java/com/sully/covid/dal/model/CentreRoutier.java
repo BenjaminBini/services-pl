@@ -34,19 +34,16 @@ public class CentreRoutier implements ModelBase {
     @CsvBindByName(column = "ADRESSE")
     private String adresse;
 
-    @Column(name = "COM")
+    @Column(name = "COM", length = 1000)
     @CsvBindByName(column = "COM")
     private String com;
 
     @Column(name = "Lat")
-    @CsvBindByName(column = "Lat")
+    @CsvBindByName(column = "lat")
     private String lat;
 
     @Column(name = "Lon")
-    @CsvBindByName(column = "Lon")
+    @CsvBindByName(column = "lon")
     private String lon;
 
-    @Column(name = "STATUT_OUVERT")
-    @CsvBindByName(column = "STATUT_OUVERT")
-    private Boolean statutOuvert;
 }

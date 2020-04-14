@@ -24,8 +24,8 @@ public class CentreCTController extends ControllerBase<CentreCT, CentreCTReposit
                 "ct/cts",
                 "ct",
                 "ct",
-                List.of(new Entry("id", "id"), new Entry("nom", "nom"), new Entry("statutOuvert", "statut")),
-                List.of(new Entry("id", "Id"), new Entry("nom", "Nom"), new Entry("statutOuvert", "Statut")));
+                List.of(new Entry("id", "id"), new Entry("nom", "nom"), new Entry("commune", "Commune"), new Entry("statutOuvert", "statut")),
+                List.of(new Entry("id", "Id"), new Entry("nom", "Nom"), new Entry("commune", "Commune"), new Entry("statutOuvert", "Statut")));
         this.service = centreCTService;
     }
 

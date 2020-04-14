@@ -93,7 +93,7 @@ public class PublicFormRequest implements ModelBase {
     /**
      * Commentaires
      */
-    @Column(name = "COM")
+    @Column(name = "COM", length = 1000)
     private String com;
 
     /**

@@ -2,6 +2,8 @@ package com.sully.covid.dal.model;
 
 
 import com.opencsv.bean.CsvBindByName;
+import com.opencsv.bean.CsvCustomBindByName;
+import com.sully.covid.util.StringToBoolConverter;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -21,7 +23,7 @@ public class CentreCT implements ModelBase {
     private String nom;
 
     @Column(name = "STATUT_OUVERT")
-    @CsvBindByName(column = "STATUT_OUVERT")
+    @CsvCustomBindByName(column = "STATUT_OUVERT", converter = StringToBoolConverter.class)
     private Boolean statutOuvert;
 
     @Column(name = "CODE_AGREM")

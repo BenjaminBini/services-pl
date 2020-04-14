@@ -35,7 +35,6 @@ public class CentreRoutierService extends ServiceBase<CentreRoutierRepository, C
                 feature.setProperty("ID", cr.getId());
                 feature.setProperty("TYPE", cr.getType());
                 feature.setProperty("NOM_CENTRE", cr.getNomCentre());
-                feature.setProperty("STATUT_OUVERT", getStringValue(cr.getStatutOuvert()));
                 feature.setProperty("DEPARTEMENT", cr.getDepartement());
                 feature.setProperty("VOIE", cr.getVoie());
                 feature.setProperty("ADRESSE", cr.getAdresse());

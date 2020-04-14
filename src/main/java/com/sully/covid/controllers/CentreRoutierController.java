@@ -24,8 +24,8 @@ public class CentreRoutierController extends ControllerBase<CentreRoutier, Centr
                 "routiers/routiers",
                 "routier",
                 "routier",
-                List.of(new Entry("id", "id"), new Entry("nomCentre", "nom"), new Entry("statutOuvert", "statut")),
-                List.of(new Entry("id", "Id"), new Entry("nomCentre", "Nom"), new Entry("com", "Commentaire"), new Entry("statutOuvert", "Statut")));
+                List.of(new Entry("id", "id"), new Entry("nomCentre", "nom")),
+                List.of(new Entry("id", "Id"), new Entry("nomCentre", "Nom"), new Entry("com", "Commentaire")));
         this.service = centreRoutierService;
     }
 
