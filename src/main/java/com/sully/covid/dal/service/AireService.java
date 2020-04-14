@@ -29,35 +29,33 @@ public class AireService extends ServiceBase<AireRepository, Aire> {
 
     @Override
     public Page<Aire> search(Pageable pageable, String keyword, String filter) {
-        Page<Aire> aires = null;
+        Page<Aire> aires;
         Sort sort;
-        if (filter != null) {
-            //aires = this.repository.search(keyword, filter,
-            //        pageable.getSort().get().findFirst().get().getProperty(),
-            //       pageable.getSort().get().findFirst().get().getDirection() == Sort.Direction.DESC ? "DESC" : "ASC");
+        String sortProperty = pageable.getSort().get().findFirst().get().getProperty();
+        String sortColumn;
+        switch (sortProperty) {
+            case "nomAire":
+                sortColumn = "NOM_AIRE";
+                break;
+            case "statutOuvert":
+                sortColumn = "STATUT_OUVERT";
+                break;
+            default:
+                sortColumn = "ID";
+        }
+        if (pageable.getSort().get().findFirst().get().getDirection() == Sort.Direction.DESC) {
+            sort = Sort.by(Sort.Order.desc("requestsCount"), Sort.Order.desc(sortColumn));
         } else {
-            String sortProperty = pageable.getSort().get().findFirst().get().getProperty();
-            String sortColumn;
-            switch (sortProperty) {
-                case "nomAire":
-                    sortColumn = "NOM_AIRE";
-                    break;
-                case "statutOuvert":
-                    sortColumn = "STATUT_OUVERT";
-                    break;
-                default:
-                    sortColumn = "ID";
-            }
-            if (pageable.getSort().get().findFirst().get().getDirection() == Sort.Direction.DESC) {
-                sort = Sort.by(Sort.Order.desc("requestsCount"), Sort.Order.desc(sortColumn));
-            } else {
-                sort = Sort.by(Sort.Order.desc("requestsCount"), Sort.Order.asc(sortColumn));
-            }
+            sort = Sort.by(Sort.Order.desc("requestsCount"), Sort.Order.asc(sortColumn));
+        }
+        if (filter == null) {
             aires = this.repository.search(keyword, PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort));
+        } else {
+            aires = this.repository.search(keyword, filter, PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort));
         }
         return aires;
-
     }
+
 
     @Override
     public FeatureCollection toGeoJSON() {
