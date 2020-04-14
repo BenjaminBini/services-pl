@@ -51,4 +51,13 @@ public abstract  class ServiceBase<REPOSITORY extends JpaRepository<ENTITY, Long
         throw new NotImplementedException("Not implemented yet");
     }
 
+    public String getStringValue(Boolean value) {
+        if (value == null) {
+            return "-";
+        } else if (value) {
+            return "Oui";
+        } else {
+            return "Non";
+        }
+    }
 }
