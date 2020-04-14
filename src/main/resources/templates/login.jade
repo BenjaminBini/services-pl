@@ -1,0 +1,44 @@
+doctype html
+html
+    head
+        meta(charset='utf-8')
+        meta(content='width=device-width, initial-scale=1, shrink-to-fit=no' name='viewport')
+        title Administration
+        link(rel='stylesheet' href='/output.css')
+        link(rel='stylesheet' href='https://rsms.me/inter/inter.css')
+        script(src='/alpine.js' defer)
+        script(src='/chart.js' defer)
+        script(src='/script.js' defer)
+    body
+        .min-h-screen.flex.items-center.justify-center.bg-gray-50.py-12.px-4(class="sm:px-6 lg:px-8")
+            .max-w-md.w-full
+                div
+                    h2.text-center.text-3xl.leading-9.font-extrabold.text-gray-900
+                        | Connexion
+                form.mt-8(action="/login" method="POST")
+                    if error
+                        .rounded-md.bg-red-50.p-4.mb-6
+                            .flex
+                                .flex-shrink-0
+                                    svg.h-5.w-5.text-red-400(fill="currentColor" viewbox="0 0 20 20")
+                                        path(fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd")
+                                .ml-3
+                                    h3.text-sm.leading-5.font-medium.text-red-800
+                                        | Erreur d'autentification
+
+                    .rounded-md.shadow-sm
+                        div
+                            input.appearance-none.rounded-none.relative.block.w-full.px-3.py-2.border.border-gray-300.placeholder-gray-500.text-gray-900.rounded-t-md(aria-label="Email address" name="username" type="username" required="" class="focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Nom d'utilisateur")
+                        .-mt-px
+                            input.appearance-none.rounded-none.relative.block.w-full.px-3.py-2.border.border-gray-300.placeholder-gray-500.text-gray-900.rounded-b-md(aria-label="Password" name="password" type="password" required="" class="focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10 sm:text-sm sm:leading-5" placeholder="Password")
+                    .mt-6.flex.items-center.justify-between
+                        .flex.items-center
+                            input#remember-me.form-checkbox.h-4.w-4.text-indigo-600.transition.duration-150.ease-in-out(type="checkbox" name="remember-me")
+                            label.ml-2.block.text-sm.leading-5.text-gray-900(for="remember-me")
+                                | Se souvenir de moi
+                    .mt-6
+                        button.group.relative.w-full.flex.justify-center.py-2.px-4.border.border-transparent.text-sm.leading-5.font-medium.rounded-md.text-white.bg-indigo-600.transition.duration-150.ease-in-out(type="submit" class="hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700")
+                            span.absolute.left-0.inset-y-0.flex.items-center.pl-3
+                                svg.h-5.w-5.text-indigo-500.transition.ease-in-out.duration-150(class="group-hover:text-indigo-400" fill="currentColor" viewbox="0 0 20 20")
+                                    path(fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd")
+                            |           Se connecter

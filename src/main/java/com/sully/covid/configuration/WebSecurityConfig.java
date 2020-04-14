@@ -21,15 +21,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // For example: Use only Http Basic and not form login.
         http.csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/").hasAnyAuthority("ROLE_ADMIN", "ROLE_GEST", "ROLE_USER")
                 .antMatchers("/aire/**").hasAnyAuthority("ROLE_ADMIN", "ROLE_GEST")
                 .antMatchers("/ct/**").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/relais/**").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/routier/**").hasAuthority("ROLE_ADMIN")
                 .antMatchers("/users/**").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .formLogin()
+                .loginPage("/login")
                 .and()
                 .rememberMe().key("random")
                 .userDetailsService(userService);
