@@ -6,26 +6,113 @@ block content
             h2.text-2xl.font-bold.leading-7.text-gray-900(class="sm:text-3xl sm:leading-9 sm:truncate")
                 | Gestion des services aux routiers
     div.mt-5
-        .mt-5.grid.grid-cols-1.gap-5(class="sm:grid-cols-3")
+        .mt-5.grid.grid-cols-1.gap-5(class="sm:grid-cols-2 xl:grid-cols-3")
             .bg-white.overflow-hidden.shadow.rounded-lg
                 .px-4.py-5(class="sm:p-6")
                     dl
                         dt.text-sm.leading-5.font-medium.text-gray-500.truncate
-                            | Nombre d'aires de services
+                            | Aires de services ouvertes
                         dd.mt-1.text-3xl.leading-9.font-semibold.text-gray-900
-                            | #{airesCount}
+                            | #{stats.airesOuverteRatio} %
+                            span.ml-3.text-base #{stats.airesOuvertesCount} / #{stats.airesCount} 
             .bg-white.overflow-hidden.shadow.rounded-lg
                 .px-4.py-5(class="sm:p-6")
                     dl
                         dt.text-sm.leading-5.font-medium.text-gray-500.truncate
-                            | Nombre d'aires ouvertes
+                            | Equipées de places de stationnement PL
                         dd.mt-1.text-3xl.leading-9.font-semibold.text-gray-900
-                            | #{airesOuvertesCount}
+                            | #{stats.placesPlRatio} %
+                            span.ml-3.text-base #{stats.placesPlCount} / #{stats.airesCount} 
+        
             .bg-white.overflow-hidden.shadow.rounded-lg
                 .px-4.py-5(class="sm:p-6")
                     dl
                         dt.text-sm.leading-5.font-medium.text-gray-500.truncate
-                            | Pourcentage d'aires ouvertes
+                            | Aires équipées de sanitaires
                         dd.mt-1.text-3xl.leading-9.font-semibold.text-gray-900
-                            | #{airesOuvertesRatio} %
+                            | #{stats.sanitairesRatio} %
+                            span.ml-3.text-base #{stats.sanitairesCount} / #{stats.airesCount}
+            .bg-white.overflow-hidden.shadow.rounded-lg
+                .px-4.py-5(class="sm:p-6")
+                    dl
+                        dt.text-sm.leading-5.font-medium.text-gray-500.truncate
+                            | Sanitaires en service
+                        dd.mt-1.text-3xl.leading-9.font-semibold.text-gray-900
+                            | #{stats.sanitairesOuvertsRatio} %
+                            span.ml-3.text-base #{stats.sanitairesOuvertsCount} / #{stats.sanitairesCount} 
+            
+            .bg-white.overflow-hidden.shadow.rounded-lg
+                .px-4.py-5(class="sm:p-6")
+                    dl
+                        dt.text-sm.leading-5.font-medium.text-gray-500.truncate
+                            | Aires équipées de douches
+                        dd.mt-1.text-3xl.leading-9.font-semibold.text-gray-900
+                            | #{stats.douchesRatio} %
+                            span.ml-3.text-base #{stats.douchesCount} / #{stats.airesCount}
+            .bg-white.overflow-hidden.shadow.rounded-lg
+                .px-4.py-5(class="sm:p-6")
+                    dl
+                        dt.text-sm.leading-5.font-medium.text-gray-500.truncate
+                            | Douches en service
+                        dd.mt-1.text-3xl.leading-9.font-semibold.text-gray-900
+                            | #{stats.douchesOuvertsRatio} %
+                            span.ml-3.text-base #{stats.douchesOuvertsCount} / #{stats.douchesCount} 
+            
+            .bg-white.overflow-hidden.shadow.rounded-lg
+                .px-4.py-5(class="sm:p-6")
+                    dl
+                        dt.text-sm.leading-5.font-medium.text-gray-500.truncate
+                            span.textxl Aires équipées de restauration
+                        dd.mt-1.text-3xl.leading-9.font-semibold.text-gray-900
+                            | #{stats.restauRatio} %
+                            span.ml-3.text-base #{stats.restauCount} / #{stats.airesCount}
+            .bg-white.overflow-hidden.shadow.rounded-lg
+                .px-4.py-5(class="sm:p-6")
+                    dl
+                        dt.text-sm.leading-5.font-medium.text-gray-500.truncate
+                            | Restauration en service
+                        dd.mt-1.text-3xl.leading-9.font-semibold.text-gray-900
+                            | #{stats.restauOuvertsRatio} %
+                            span.ml-3.text-base #{stats.restauOuvertsCount} / #{stats.restauCount} 
+                            
+            .bg-white.overflow-hidden.shadow.rounded-lg
+                .px-4.py-5(class="sm:p-6")
+                    dl
+                        dt.text-sm.leading-5.font-medium.text-gray-500.truncate
+                            | Aires équipées de pompes poids lourds
+                        dd.mt-1.text-3xl.leading-9.font-semibold.text-gray-900
+                            | #{stats.carbuPlRatio} %
+                            span.ml-3.text-base #{stats.carbuPlCount} / #{stats.airesCount}
+            .bg-white.overflow-hidden.shadow.rounded-lg
+                .px-4.py-5(class="sm:p-6")
+                    dl
+                        dt.text-sm.leading-5.font-medium.text-gray-500.truncate
+                            | Pompes poids lourds en service
+                        dd.mt-1.text-3xl.leading-9.font-semibold.text-gray-900
+                            | #{stats.carbuPlOuvertsRatio} %
+                            span.ml-3.text-base #{stats.carbuPlOuvertsCount} / #{stats.carbuPlCount} 
+                                     
+            .bg-white.overflow-hidden.shadow.rounded-lg
+                .px-4.py-5(class="sm:p-6")
+                    dl
+                        dt.text-sm.leading-5.font-medium.text-gray-500.truncate
+                            | Centres techniques ouverts
+                        dd.mt-1.text-3xl.leading-9.font-semibold.text-gray-900
+                            | #{stats.ctOuvertsRatio} %
+                            span.ml-3.text-base #{stats.ctOuvertsCount} / #{stats.ctCount} 
+            .bg-white.overflow-hidden.shadow.rounded-lg
+                .px-4.py-5(class="sm:p-6")
+                    dl
+                        dt.text-sm.leading-5.font-medium.text-gray-500.truncate
+                            | Relais routiers ouverts
+                        dd.mt-1.text-3xl.leading-9.font-semibold.text-gray-900
+                            | #{stats.relaisOuvertsRatio} % 
+                            span.ml-3.text-base #{stats.relaisOuvertsCount} / #{stats.relaisCount} 
 
+            .bg-white.overflow-hidden.shadow.rounded-lg
+                .px-4.py-5(class="sm:p-6")
+                    dl
+                        dt.text-sm.leading-5.font-medium.text-gray-500.truncate
+                            | Centres routiers
+                        dd.mt-1.text-3xl.leading-9.font-semibold.text-gray-900
+                            | #{stats.routiersCount}
