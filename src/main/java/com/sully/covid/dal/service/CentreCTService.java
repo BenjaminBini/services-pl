@@ -30,7 +30,7 @@ public class CentreCTService extends ServiceBase<CentreCTRepository, CentreCT> {
         for (CentreCT ct : this.getAll()) {
             try {
                 Feature feature = new Feature();
-                GeoJsonObject geometry = new Point(Long.parseLong(ct.getLat()), Long.parseLong(ct.getLon()));
+                GeoJsonObject geometry = new Point(Double.parseDouble(ct.getLat()), Double.parseDouble(ct.getLon()));
                 feature.setGeometry(geometry);
                 feature.setProperty("ID", ct.getId());
                 feature.setProperty("NOM", ct.getNom());

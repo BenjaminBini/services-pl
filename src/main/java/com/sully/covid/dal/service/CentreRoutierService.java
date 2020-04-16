@@ -30,7 +30,7 @@ public class CentreRoutierService extends ServiceBase<CentreRoutierRepository, C
         for (CentreRoutier cr : this.getAll()) {
             try {
                 Feature feature = new Feature();
-                GeoJsonObject geometry = new Point(Long.parseLong(cr.getLat()), Long.parseLong(cr.getLon()));
+                GeoJsonObject geometry = new Point(Double.parseDouble(cr.getLat()), Double.parseDouble(cr.getLon()));
                 feature.setGeometry(geometry);
                 feature.setProperty("ID", cr.getId());
                 feature.setProperty("TYPE", cr.getType());

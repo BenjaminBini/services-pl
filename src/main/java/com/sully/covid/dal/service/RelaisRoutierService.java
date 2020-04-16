@@ -30,7 +30,7 @@ public class RelaisRoutierService extends ServiceBase<RelaisRoutierRepository, R
         for (RelaisRoutier relais : this.getAll()) {
             try {
                 Feature feature = new Feature();
-                GeoJsonObject geometry = new Point(Long.parseLong(relais.getLat()), Long.parseLong(relais.getLon()));
+                GeoJsonObject geometry = new Point(Double.parseDouble(relais.getLat()), Double.parseDouble(relais.getLon()));
                 feature.setGeometry(geometry);
                 feature.setProperty("ID", relais.getId());
                 feature.setProperty("DEP", relais.getDep());

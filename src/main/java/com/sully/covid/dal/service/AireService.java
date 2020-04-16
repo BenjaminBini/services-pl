@@ -61,29 +61,34 @@ public class AireService extends ServiceBase<AireRepository, Aire> {
     public FeatureCollection toGeoJSON() {
         FeatureCollection featureCollection = new FeatureCollection();
         for (Aire aire : this.getAll()) {
-            Feature feature = new Feature();
-            LambertPoint lambertPoint = Lambert.convertToWGS84Deg(Double.parseDouble(aire.getX()), Double.parseDouble(aire.getY()), LambertZone.Lambert93);
-            GeoJsonObject geometry = new Point(lambertPoint.getX(), lambertPoint.getY());
-            feature.setGeometry(geometry);
-            feature.setProperty("ID", aire.getId());
-            feature.setProperty("NOM_AIRE", aire.getNomAire());
-            feature.setProperty("CONCESSION", getStringValue(aire.isConcession()));
-            feature.setProperty("DIR_SCA", aire.getDirSca());
-            feature.setProperty("STATUT_OUVERT", getStringValue(aire.isStatutOuvert()));
-            feature.setProperty("ROUTE", aire.getRoute());
-            feature.setProperty("DEP", aire.getDep());
-            feature.setProperty("TYPE_AIRE", aire.getTypeAire());
-            feature.setProperty("EQ_PLACESPL", getStringValue(aire.getEqPlacesPl()));
-            feature.setProperty("EQ_SANITAIRES", getStringValue(aire.getEqSanitaires()));
-            feature.setProperty("EQ_DOUCHES", getStringValue(aire.getEqDouches()));
-            feature.setProperty("EQ_RESTAU", getStringValue(aire.getEqRestau()));
-            feature.setProperty("SERV_SANITAIRES", getStringValue(aire.getServSanitaires()));
-            feature.setProperty("SERV_DOUCHES", getStringValue(aire.getServDouches()));
-            feature.setProperty("SERV_RESTAU", getStringValue(aire.getServRestau()));
-            feature.setProperty("COM", aire.getCom());
-            feature.setProperty("X", aire.getX());
-            feature.setProperty("Y", aire.getY());
-            featureCollection.add(feature);
+            try {
+                Feature feature = new Feature();
+                LambertPoint lambertPoint = Lambert.convertToWGS84Deg(Double.parseDouble(aire.getX()), Double.parseDouble(aire.getY()), LambertZone.Lambert93);
+                GeoJsonObject geometry = new Point(lambertPoint.getX(), lambertPoint.getY());
+                feature.setGeometry(geometry);
+                feature.setProperty("ID", aire.getId());
+                feature.setProperty("NOM_AIRE", aire.getNomAire());
+                feature.setProperty("CONCESSION", getStringValue(aire.isConcession()));
+                feature.setProperty("DIR_SCA", aire.getDirSca());
+                feature.setProperty("STATUT_OUVERT", getStringValue(aire.isStatutOuvert()));
+                feature.setProperty("ROUTE", aire.getRoute());
+                feature.setProperty("DEP", aire.getDep());
+                feature.setProperty("TYPE_AIRE", aire.getTypeAire());
+                feature.setProperty("EQ_PLACESPL", getStringValue(aire.getEqPlacesPl()));
+                feature.setProperty("EQ_SANITAIRES", getStringValue(aire.getEqSanitaires()));
+                feature.setProperty("EQ_DOUCHES", getStringValue(aire.getEqDouches()));
+                feature.setProperty("EQ_RESTAU", getStringValue(aire.getEqRestau()));
+                feature.setProperty("SERV_SANITAIRES", getStringValue(aire.getServSanitaires()));
+                feature.setProperty("SERV_DOUCHES", getStringValue(aire.getServDouches()));
+                feature.setProperty("SERV_RESTAU", getStringValue(aire.getServRestau()));
+                feature.setProperty("COM", aire.getCom());
+                feature.setProperty("X", aire.getX());
+                feature.setProperty("Y", aire.getY());
+                featureCollection.add(feature);
+            } catch (Exception ex) {
+                System.out.println("Unable to serialize aire to GeoJSON : " + aire.getId());
+                ex.printStackTrace();
+            }
         }
         return featureCollection;
     }

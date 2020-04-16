@@ -30,9 +30,19 @@ public class ApiController {
     @Autowired
     private RelaisRoutierService relaisRoutierService;
 
-    @GetMapping(value = "aire/geojson")
-    public FeatureCollection airesToGeoJSON() {
-        return this.aireService.toGeoJSON();
+    @GetMapping(value = "{type}/geojson")
+    public FeatureCollection airesToGeoJSON(@PathVariable String type) {
+        switch (type) {
+            case "aire":
+                return this.aireService.toGeoJSON();
+            case "ct":
+                return this.centreCTService.toGeoJSON();
+            case "routier":
+                return this.centreRoutierService.toGeoJSON();
+            case "relais":
+                return this.relaisRoutierService.toGeoJSON();
+        }
+        return null;
     }
 
     @GetMapping(value = "{type}/csv",
