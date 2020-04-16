@@ -5,6 +5,7 @@ import lombok.Data;
 import org.geojson.Feature;
 import org.geojson.GeoJsonObject;
 import org.geojson.Point;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
@@ -13,8 +14,15 @@ import javax.persistence.*;
 public class CentreRoutier implements ModelBase {
     @Id
     @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @CsvBindByName(column = "ID")
+    @GenericGenerator(
+            name = "assigned-identity",
+            strategy = "com.sully.covid.dal.AssignedIdentityGenerator"
+    )
+    @GeneratedValue(
+            generator = "assigned-identity",
+            strategy = GenerationType.IDENTITY
+    )
     private long id;
 
     @Column(name = "TYPE")

@@ -8,6 +8,7 @@ import lombok.Data;
 import org.geojson.Feature;
 import org.geojson.GeoJsonObject;
 import org.geojson.Point;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
@@ -18,7 +19,14 @@ public class CentreCT implements ModelBase {
     @Id
     @Column(name = "ID")
     @CsvBindByName(column = "ID")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GenericGenerator(
+            name = "assigned-identity",
+            strategy = "com.sully.covid.dal.AssignedIdentityGenerator"
+    )
+    @GeneratedValue(
+            generator = "assigned-identity",
+            strategy = GenerationType.IDENTITY
+    )
     private long id;
 
     @Column(name = "NOM")
