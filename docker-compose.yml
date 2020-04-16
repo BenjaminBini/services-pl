@@ -29,3 +29,17 @@ services:
       - WAIT_HOSTS=mysql:3306
     depends_on:
       - mysql
+
+  backup:
+    image: databack/mysql-backup
+    restart: always
+    user: "0"
+    volumes:
+      - ./backups:/db
+    environment:
+      - DB_DUMP_TARGET=/db
+      - DB_USER=service-pl
+      - DB_PASS=sully
+      - DB_DUMP_FREQ=60
+      - DB_DUMP_BEGIN=+1
+      - DB_SERVER=mysql
