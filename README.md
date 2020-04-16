@@ -5,5 +5,5 @@ Pour générer le CSS :
 ```
 cd src/main/resources
 npm install
-npx tailwindcss build static/style.css -o static/output.css
+npm run build
 ```
