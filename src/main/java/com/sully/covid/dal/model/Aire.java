@@ -2,8 +2,14 @@ package com.sully.covid.dal.model;
 
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvCustomBindByName;
+import com.sully.covid.util.Lambert;
+import com.sully.covid.util.LambertPoint;
+import com.sully.covid.util.LambertZone;
 import com.sully.covid.util.StringToBoolConverter;
 import lombok.Data;
+import org.geojson.Feature;
+import org.geojson.GeoJsonObject;
+import org.geojson.Point;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -173,4 +179,33 @@ public class Aire implements ModelBase {
     @OneToMany(mappedBy = "aire", fetch = FetchType.LAZY)
     private Collection<PublicFormRequest> publicFormRequests;
 
+    @Override
+    public Feature toGeoJSON() throws Exception {
+        Feature feature = new Feature();
+        LambertPoint lambertPoint = Lambert.convertToWGS84Deg(
+                Double.parseDouble(this.getX().replace(',', '.')),
+                Double.parseDouble(this.getY().replace(',', '.')),
+                LambertZone.Lambert93);
+        GeoJsonObject geometry = new Point(lambertPoint.getX(), lambertPoint.getY());
+        feature.setGeometry(geometry);
+        feature.setProperty("ID", this.getId());
+        feature.setProperty("NOM_AIRE", this.getNomAire());
+        feature.setProperty("CONCESSION", getStringValue(this.isConcession()));
+        feature.setProperty("DIR_SCA", this.getDirSca());
+        feature.setProperty("STATUT_OUVERT", getStringValue(this.isStatutOuvert()));
+        feature.setProperty("ROUTE", this.getRoute());
+        feature.setProperty("DEP", this.getDep());
+        feature.setProperty("TYPE_AIRE", this.getTypeAire());
+        feature.setProperty("EQ_PLACESPL", getStringValue(this.getEqPlacesPl()));
+        feature.setProperty("EQ_SANITAIRES", getStringValue(this.getEqSanitaires()));
+        feature.setProperty("EQ_DOUCHES", getStringValue(this.getEqDouches()));
+        feature.setProperty("EQ_RESTAU", getStringValue(this.getEqRestau()));
+        feature.setProperty("SERV_SANITAIRES", getStringValue(this.getServSanitaires()));
+        feature.setProperty("SERV_DOUCHES", getStringValue(this.getServDouches()));
+        feature.setProperty("SERV_RESTAU", getStringValue(this.getServRestau()));
+        feature.setProperty("COM", this.getCom());
+        feature.setProperty("X", this.getX());
+        feature.setProperty("Y", this.getY());
+        return feature;
+    }
 }

@@ -83,11 +83,11 @@ public class HomeController {
             carbuPlOuvertsRatio = (float) Math.round((float) carbuPlOuvertsCount / carbuPlCount * 10000) / 100;
 
             ctCount = cts.size();
-            ctOuvertsCount = cts.stream().filter(c -> c.getStatutOuvert() != null && c.getStatutOuvert()).count();
+            ctOuvertsCount = cts.stream().filter(CentreCT::isStatutOuvert).count();
             ctOuvertsRatio = (float) Math.round((float) ctOuvertsCount / ctCount * 10000) / 100;
             routiersCount = routiers.size();
             relaisCount = relais.size();
-            relaisOuvertsCount = relais.stream().filter(r -> r.getStatutOuvert() != null && r.getStatutOuvert()).count();
+            relaisOuvertsCount = relais.stream().filter(RelaisRoutier::isStatutOuvert).count();
             relaisOuvertsRatio = (float) Math.round((float) relaisOuvertsCount / relaisCount * 10000) / 100;
         }
 

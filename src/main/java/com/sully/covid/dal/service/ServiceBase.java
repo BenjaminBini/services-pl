@@ -7,6 +7,7 @@ import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 import com.sully.covid.dal.model.ModelBase;
 import org.apache.commons.lang3.NotImplementedException;
+import org.geojson.Feature;
 import org.geojson.FeatureCollection;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract  class ServiceBase<REPOSITORY extends JpaRepository<ENTITY, Long>, ENTITY extends ModelBase> {
     protected REPOSITORY repository;
@@ -47,17 +49,22 @@ public abstract  class ServiceBase<REPOSITORY extends JpaRepository<ENTITY, Long
         return writer.toString();
     }
 
-    public FeatureCollection toGeoJSON() {
-        throw new NotImplementedException("Not implemented yet");
+    public FeatureCollection toGeoJSON(Boolean filtreStatut) {
+        FeatureCollection featureCollection = new FeatureCollection();
+        List<ENTITY> entities = this.getAll()
+                .stream()
+                .filter(a -> filtreStatut == null || filtreStatut.equals(a.isStatutOuvert()))
+                .collect(Collectors.toList());
+        for (ENTITY entity : entities) {
+            try {
+                Feature feature = entity.toGeoJSON();
+                featureCollection.add(feature);
+            } catch (Exception ex) {
+                System.out.println("Unable to serialize entity to GeoJSON : " + entity.getId());
+                ex.printStackTrace();
+            }
+        }
+        return featureCollection;
     }
 
-    public String getStringValue(Boolean value) {
-        if (value == null) {
-            return "-";
-        } else if (value) {
-            return "Oui";
-        } else {
-            return "Non";
-        }
-    }
 }

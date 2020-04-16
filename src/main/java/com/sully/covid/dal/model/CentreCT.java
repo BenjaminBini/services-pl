@@ -5,6 +5,9 @@ import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvCustomBindByName;
 import com.sully.covid.util.StringToBoolConverter;
 import lombok.Data;
+import org.geojson.Feature;
+import org.geojson.GeoJsonObject;
+import org.geojson.Point;
 
 import javax.persistence.*;
 
@@ -24,7 +27,7 @@ public class CentreCT implements ModelBase {
 
     @Column(name = "STATUT_OUVERT")
     @CsvCustomBindByName(column = "STATUT_OUVERT", converter = StringToBoolConverter.class)
-    private Boolean statutOuvert;
+    private boolean statutOuvert;
 
     @Column(name = "CODE_AGREM")
     @CsvBindByName(column = "CODE_AGREM")
@@ -61,4 +64,27 @@ public class CentreCT implements ModelBase {
     @Column(name = "Lon")
     @CsvBindByName(column = "Lon")
     private String lon;
+
+    @Override
+    public Feature toGeoJSON() {
+        Feature feature = new Feature();
+        GeoJsonObject geometry = new Point(
+                Double.parseDouble(this.getLon().replace(',', '.')),
+                Double.parseDouble(this.getLat().replace(',', '.')));
+        feature.setGeometry(geometry);
+        feature.setProperty("ID", this.getId());
+        feature.setProperty("NOM", this.getNom());
+        feature.setProperty("CODE_AGREM", this.getCodeAgrem());
+        feature.setProperty("STATUT_OUVERT", getStringValue(this.isStatutOuvert()));
+        feature.setProperty("DEP", this.getDep());
+        feature.setProperty("COMMUNE", this.getCommune());
+        feature.setProperty("CODE_INSEE", this.getCodeInsee());
+        feature.setProperty("ADRESSE_L1", this.getAdresseLigne1());
+        feature.setProperty("ADRESSE_L2", this.getAdresseLigne2());
+        feature.setProperty("TEL", this.getTel());
+        feature.setProperty("Lat", this.getLat());
+        feature.setProperty("Lon", this.getLon());
+        return feature;
+    }
+
 }

@@ -126,6 +126,7 @@ public abstract class ControllerBase<ENTITY extends ModelBase, REPOSITORY extend
                         .withType(type)
                         .withSeparator(';')
                         .withIgnoreLeadingWhiteSpace(true)
+                        .withIgnoreEmptyLine(true)
                         .build();
 
                 // convert `CsvToBean` object to list of users

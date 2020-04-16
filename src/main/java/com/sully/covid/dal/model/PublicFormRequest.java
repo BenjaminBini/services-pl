@@ -1,6 +1,7 @@
 package com.sully.covid.dal.model;
 
 import lombok.Data;
+import org.geojson.Feature;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -111,4 +112,10 @@ public class PublicFormRequest implements ModelBase {
         }
         return result;
     }
+
+    @Override
+    public Feature toGeoJSON() throws Exception {
+        throw new Exception("Not implemented method");
+    }
 }
+

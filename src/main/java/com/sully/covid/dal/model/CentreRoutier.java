@@ -2,6 +2,9 @@ package com.sully.covid.dal.model;
 
 import com.opencsv.bean.CsvBindByName;
 import lombok.Data;
+import org.geojson.Feature;
+import org.geojson.GeoJsonObject;
+import org.geojson.Point;
 
 import javax.persistence.*;
 
@@ -46,4 +49,27 @@ public class CentreRoutier implements ModelBase {
     @CsvBindByName(column = "lon")
     private String lon;
 
+    @Override
+    public Feature toGeoJSON() {
+        Feature feature = new Feature();
+        GeoJsonObject geometry = new Point(
+                Double.parseDouble(this.getLon().replace(',', '.')),
+                Double.parseDouble(this.getLat().replace(',', '.')));
+        feature.setGeometry(geometry);
+        feature.setProperty("ID", this.getId());
+        feature.setProperty("TYPE", this.getType());
+        feature.setProperty("NOM_CENTRE", this.getNomCentre());
+        feature.setProperty("DEPARTEMENT", this.getDepartement());
+        feature.setProperty("VOIE", this.getVoie());
+        feature.setProperty("ADRESSE", this.getAdresse());
+        feature.setProperty("COM", this.getCom());
+        feature.setProperty("Lat", this.getLat());
+        feature.setProperty("Lon", this.getLon());
+        return feature;
+    }
+
+    @Override
+    public boolean isStatutOuvert() {
+        return true;
+    }
 }

@@ -7,10 +7,7 @@ import com.sully.covid.dal.service.CentreRoutierService;
 import com.sully.covid.dal.service.RelaisRoutierService;
 import org.geojson.FeatureCollection;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -31,16 +28,18 @@ public class ApiController {
     private RelaisRoutierService relaisRoutierService;
 
     @GetMapping(value = "{type}/geojson")
-    public FeatureCollection airesToGeoJSON(@PathVariable String type) {
+    public FeatureCollection airesToGeoJSON(@PathVariable String type,
+                                            @RequestParam(defaultValue = "", required = false) String open) {
+        Boolean returnOnlyOpenEntities = open.equals("") ? null : open.equals("true");
         switch (type) {
             case "aire":
-                return this.aireService.toGeoJSON();
+                return this.aireService.toGeoJSON(returnOnlyOpenEntities);
             case "ct":
-                return this.centreCTService.toGeoJSON();
+                return this.centreCTService.toGeoJSON(returnOnlyOpenEntities);
             case "routier":
-                return this.centreRoutierService.toGeoJSON();
+                return this.centreRoutierService.toGeoJSON(returnOnlyOpenEntities);
             case "relais":
-                return this.relaisRoutierService.toGeoJSON();
+                return this.relaisRoutierService.toGeoJSON(returnOnlyOpenEntities);
         }
         return null;
     }
