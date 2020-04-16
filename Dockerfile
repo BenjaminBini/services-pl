@@ -6,4 +6,9 @@ ENV LANGUAGE fr_FR:en
 ENV LC_ALL fr_FR.UTF-8
 RUN sed -i -e 's/# fr_FR.UTF-8 UTF-8/fr_FR.UTF-8 UTF-8/' /etc/locale.gen && \
     locale-gen
-ENTRYPOINT ["java","-jar","/app.jar"]
+
+COPY bin/wait-for-it.sh /
+COPY bin/run.sh /
+RUN chmod +x /wait-for-it.sh
+
+ENTRYPOINT [ "/run.sh" ]
