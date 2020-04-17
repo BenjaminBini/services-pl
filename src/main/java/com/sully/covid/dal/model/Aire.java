@@ -211,6 +211,8 @@ public class Aire implements ModelBase {
         feature.setProperty("SERV_SANITAIRES", getStringValue(this.getServSanitaires()));
         feature.setProperty("SERV_DOUCHES", getStringValue(this.getServDouches()));
         feature.setProperty("SERV_RESTAU", getStringValue(this.getServRestau()));
+        feature.setProperty("EQ_CARBUPL", getStringValue(this.getEqCarbuPl()));
+        feature.setProperty("SERV_CARBUPL", getStringValue(this.getServCarbuPl()));
         feature.setProperty("COM", this.getCom());
         feature.setProperty("X", this.getX());
         feature.setProperty("Y", this.getY());
