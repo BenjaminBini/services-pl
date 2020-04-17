@@ -60,9 +60,6 @@
                     .text-white Administration
                 // Sidebar component, swap this element with another sidebar if you like
                 nav.mt-5.flex-1.px-2.bg-gray-800
-                    mixin sidebarItem(name, title, url, icon)
-                        li.nav-item(class=name == active ? 'active' : '')
-                            a.nav-link(href=url) #{title}
 
                     a.group.flex.items-center.px-2.py-2.text-sm.leading-5.font-medium.rounded-md.mt-1.transition.ease-in-out.duration-150(href="/" class=active == 'dashboard' ? 'group-hover:text-gray-300 group-focus:text-gray-300 text-white bg-gray-900' : ' text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700')
                         svg.mr-3.h-6.w-6.text-gray-300.transition.ease-in-out.duration-150(class="group-hover:text-gray-300 group-focus:text-gray-300" stroke="currentColor" fill="none" viewbox="0 0 24 24")
