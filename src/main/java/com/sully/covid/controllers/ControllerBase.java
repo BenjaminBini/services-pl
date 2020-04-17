@@ -134,7 +134,9 @@ public abstract class ControllerBase<ENTITY extends ModelBase, REPOSITORY extend
 
                 for (ENTITY entity : entities) {
                     try {
-                        this.service.save(entity);
+                        if (entity.getId() > 0) {
+                            this.service.save(entity);
+                        }
                     } catch (Exception ex) {
                         ex.printStackTrace();
                     }
