@@ -61,6 +61,7 @@ public class PublicFormController {
             model.addAttribute("aires",
                     this.aireService.getAll().stream()
                             .filter(a -> a.getRoute().equals(route))
+                            .filter(a -> a.getDep().equals(dep))
                             .filter(a -> a.getNomAire() != null && a.getNomAire().length() > 0)
                             .map(a -> new Entry(String.valueOf(a.getId()), a.getNomAire()))
                             .sorted(Comparator.comparing(a -> a.getValue().toLowerCase()))
