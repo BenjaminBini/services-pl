@@ -1,12 +1,11 @@
 mixin textInput(name, label, value, readonly)
-    .flex.items-start.mt-6
-        .col-span-6(class="sm:col-span-2")
-            label.block.text-sm.font-medium.leading-5.text-gray-700(for=name) #{label}
-            .mt-1.relative.rounded-md.shadow-sm
-                if readonly
-                    input.form-input.block.w-full.bg-gray-50.text-gray-500(class="sm:text-sm" value=value readonly)
-                else
-                    input.form-input.block.w-full(id=name name=name, class="sm:text-sm sm:leading-5" placeholder="", value=value)
+    .flex.flex-col.mt-6(class="xl:w-1/3 lg:w-1/2 w-full")
+        label.block.text-sm.font-medium.leading-5.text-gray-700(for=name) #{label}
+        .mt-1.relative.rounded-md.shadow-sm
+            if readonly
+                input.form-input.block.w-full.bg-gray-50.text-gray-500(class="sm:text-sm" value=value readonly)
+            else
+                input.form-input.block.w-full(id=name name=name, class="sm:text-sm sm:leading-5" placeholder="", value=value)
 
 mixin textarea(textare, label, value)
     .flex.items-start.mt-6
