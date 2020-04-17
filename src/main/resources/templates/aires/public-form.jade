@@ -75,10 +75,8 @@ block content
                                                 +inlineRadio(false, false, 'eqCarbuPl', aire.eqCarbuPl, 'Pompe poids lourds', 'L\'aire est-elle équipée d\'une pompe poids lourds ?')
                                                 +inlineRadio(false, false, 'servCarbuPl', aire.servCarbuPl, 'Pompe en service', 'La pompe poids lourds est-elle en service sur cette aire ?')
 
-                                    .w-full(class="md:w-1/2 mt-6 px-3")
-                                        label.block.text-sm.font-medium.leading-5.text-gray-700(for="com") Commentaire
-                                        .mt-1.relative.rounded-md.shadow-sm
-                                            input.form-input.block.w-full(id="com" name="com" class="sm:text-sm sm:leading-5")
+                                    .px-3
+                                        +textarea("com", "Commentaire", "")
 
                         div(class="border-t border-gray-200 px-4 py-4 sm:px-6 text-right bg-gray-50")
                             if(dep != null || route != null || aire != null)

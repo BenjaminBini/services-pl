@@ -7,6 +7,13 @@ mixin textInput(name, label, value, readonly)
                     input.form-input.block.w-full.bg-gray-50.text-gray-500(class="sm:text-sm" value=value readonly)
                 else
                     input.form-input.block.w-full(id=name name=name, class="sm:text-sm sm:leading-5" placeholder="", value=value)
+
+mixin textarea(textare, label, value)
+    .flex.items-start.mt-6
+        .col-span-6(class="sm:col-span-2")
+            label.block.text-sm.font-medium.leading-5.text-gray-700(for=name) #{label}
+            .mt-1.relative.rounded-md.shadow-sm
+                textarea.form-input.block.w-full(rows="8" cols="45" id=name name=name class="sm:text-sm sm:leading-5" placeholder="") #{value}
                     
 mixin checkbox(name, isChecked, label, explanation)
     .relative.flex.items-start(class=removeMargin ? '' : 'mt-6')
