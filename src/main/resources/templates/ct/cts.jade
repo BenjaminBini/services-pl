@@ -42,7 +42,21 @@ block sidebar
                 .mt-2.max-w-xl.text-sm.leading-5.text-gray-500
                     p Importer les données au format CSV
                 .mt-3
-                    input.inline-flex.items-center.px-3.py-2.border.border-transparent.text-sm.leading-5(type="file" name="file" class="hover:bg-indigo-50 focus:outline-none focus:border-indigo-300 focus:shadow-outline-indigo active:bg-indigo-200")
+                    input.inline-flex.items-center.px-3.py-2.border.border-transparent.text-sm.leading-5(type="file" name="file" accept="text/csv" class="hover:bg-indigo-50 focus:outline-none focus:border-indigo-300 focus:shadow-outline-indigo active:bg-indigo-200")
+                .mt-3
+                    span.shadow-sm.rounded-md
+                        button.inline-flex.items-center.px-4.py-2.border.border-transparent.text-sm.leading-5.font-medium.rounded-md.text-white.bg-indigo-600.transition.duration-150.ease-in-out(type="submit" accept="text/csv" class="hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-700")
+                            | Importer
+
+    .mt-5.bg-white.shadow(class="sm:rounded-lg")
+        form(action="/ct/partial-import" method="POST" enctype="multipart/form-data")
+            .px-4.py-5(class="sm:p-6")
+                h3.text-lg.leading-6.font-medium.text-gray-900
+                    | Import partiel
+                .mt-2.max-w-xl.text-sm.leading-5.text-gray-500
+                    p Importer les données provenant des centres transmetteurs (format Excel)
+                .mt-3
+                    input.inline-flex.items-center.px-3.py-2.border.border-transparent.text-sm.leading-5(type="file" name="file" accept="application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" class="hover:bg-indigo-50 focus:outline-none focus:border-indigo-300 focus:shadow-outline-indigo active:bg-indigo-200")
                 .mt-3
                     span.shadow-sm.rounded-md
                         button.inline-flex.items-center.px-4.py-2.border.border-transparent.text-sm.leading-5.font-medium.rounded-md.text-white.bg-indigo-600.transition.duration-150.ease-in-out(type="submit" class="hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-700")

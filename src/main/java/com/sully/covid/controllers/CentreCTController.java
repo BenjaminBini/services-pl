@@ -4,6 +4,9 @@ import com.sully.covid.dal.model.CentreCT;
 import com.sully.covid.dal.repository.CentreCTRepository;
 import com.sully.covid.dal.service.CentreCTService;
 import com.sully.covid.util.Entry;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -67,5 +70,24 @@ public class CentreCTController extends ControllerBase<CentreCT, CentreCTReposit
     @PostMapping("/ct/import")
     public RedirectView importCSV(@RequestParam("file") MultipartFile file, RedirectAttributes model) {
         return super.importCSV(file, model);
+    }
+
+    @PostMapping("/ct/partial-import")
+    public RedirectView partialImport(@RequestParam("file") MultipartFile file, RedirectAttributes model) {
+        if (file.isEmpty()) {
+            model.addAttribute("importMessage", "Pas de fichier");
+            model.addAttribute("success", false);
+        } else {
+            try {
+                Workbook workbook = new XSSFWorkbook(file.getInputStream());
+                model.addAttribute("success", true);
+                Sheet sheet = workbook.getSheetAt(1);
+
+            } catch (Exception ex) {
+                model.addAttribute("importMessage", "Erreur lors de l'import");
+                model.addAttribute("success", false);
+            }
+        }
+        return new RedirectView("/" + path);
     }
 }
