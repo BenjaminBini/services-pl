@@ -12,6 +12,12 @@
                 .mt-2
                     p.text-sm.leading-5.text-gray-500
                         | L'opération a été réalisée avec succès
+                    if (idsNouveauxCentres != null && idsNouveauxCentres.size() > 0)
+                        p.text-sm.leading-5.text-gray-500 Les centres ci-dessous ont été créés :
+                        ul.list-disc
+                            each ctId in idsNouveauxCentres
+                                li
+                                    a(href='/ct/#{ctId}' target="blank" class="text-indigo-600 hover:text-indigo-900 focus:outline-none focus:underline") #{ctId}
         .mt-5(class="sm:mt-6")
             span.flex.w-full.rounded-md.shadow-sm
                 button.inline-flex.justify-center.w-full.rounded-md.border.border-transparent.px-4.py-2.bg-indigo-600.text-base.leading-6.font-medium.text-white.shadow-sm.transition.ease-in-out.duration-150(@click="open = false" type="button" class="hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo sm:text-sm sm:leading-5")

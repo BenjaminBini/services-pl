@@ -20,4 +20,8 @@ public class CentreCTService extends ServiceBase<CentreCTRepository, CentreCT> {
         return this.repository.findByNomContaining(keyword, pageable);
     }
 
+    public CentreCT findByCodeAgrem(String codeAgrem) {
+        return this.repository.findByCodeAgrem(codeAgrem);
+    }
+
 }

@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CentreCTRepository extends JpaRepository<CentreCT, Long> {
     Page<CentreCT> findByNomContaining(String nom, Pageable pageable);
+
+    CentreCT findByCodeAgrem(String codeAgrem);
 }
