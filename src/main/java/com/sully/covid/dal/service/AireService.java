@@ -41,7 +41,7 @@ public class AireService extends ServiceBase<AireRepository, Aire> {
         } else {
             sort = Sort.by(Sort.Order.desc("requestsCount"), Sort.Order.asc(sortColumn));
         }
-        if (filter == null) {
+        if (filter == null || filter.equals("")) {
             aires = this.repository.search(keyword, PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort));
         } else {
             aires = this.repository.search(keyword, filter, PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort));
