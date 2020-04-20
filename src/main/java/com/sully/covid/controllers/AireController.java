@@ -47,7 +47,8 @@ public class AireController extends ControllerBase<Aire, AireRepository> {
                         @RequestParam(defaultValue = "false", required = false) String success) {
         UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
         User user = principal.getUser();
-        return super.search(model, page, sort, dir, keyword, success, Arrays.asList(user.getGest().split(",")));
+        return super.search(model, page, sort, dir, keyword, success,
+                user.getGest() != null && user.getGest().length() > 0 ? Arrays.asList(user.getGest().split(",")) : null);
     }
 
     @Override
