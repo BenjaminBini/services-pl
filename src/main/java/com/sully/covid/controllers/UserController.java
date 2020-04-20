@@ -1,6 +1,5 @@
 package com.sully.covid.controllers;
 
-import com.sully.covid.dal.model.Aire;
 import com.sully.covid.dal.model.User;
 import com.sully.covid.dal.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
