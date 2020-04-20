@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CentreCTService extends ServiceBase<CentreCTRepository, CentreCT> {
 
@@ -16,7 +18,7 @@ public class CentreCTService extends ServiceBase<CentreCTRepository, CentreCT> {
     }
 
     @Override
-    public Page<CentreCT> search(Pageable pageable, String keyword, String filter) {
+    public Page<CentreCT> search(Pageable pageable, String keyword, List<String> filter) {
         return this.repository.findByNomContaining(keyword, pageable);
     }
 

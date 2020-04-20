@@ -7,19 +7,21 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface AireRepository extends JpaRepository<Aire, Long> {
 
     @Query(value = "SELECT count(p.ID) as requestsCount, a.* FROM AIRES a " +
             "LEFT JOIN PUBLIC_FORM_REQUEST p ON p.ID_AIRE = a.ID " +
-            "WHERE a.NOM_AIRE like %?1% AND DIR_SCA = ?2 " +
+            "WHERE a.NOM_AIRE like %?1% AND DIR_SCA IN ?2 " +
             "GROUP BY a.id",
             countQuery = "SELECT COUNT(*) FROM AIRES a " +
                     "LEFT JOIN PUBLIC_FORM_REQUEST p ON p.ID_AIRE = a.ID " +
-                    "WHERE a.NOM_AIRE like %?1% AND DIR_SCA = ?2 " +
+                    "WHERE a.NOM_AIRE like %?1% AND DIR_SCA IN ?2 " +
                     "GROUP BY a.id",
             nativeQuery = true)
-    Page<Aire> search(String nomAire, String dirSca, Pageable pageable);
+    Page<Aire> search(String nomAire, List<String> dirSca, Pageable pageable);
 
 
     @Query(value = "SELECT count(p.ID) as requestsCount, a.* FROM AIRES a " +

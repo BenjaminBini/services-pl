@@ -21,7 +21,7 @@ public class AireService extends ServiceBase<AireRepository, Aire> {
     }
 
     @Override
-    public Page<Aire> search(Pageable pageable, String keyword, String filter) {
+    public Page<Aire> search(Pageable pageable, String keyword, List<String> filter) {
         Page<Aire> aires;
         Sort sort;
         String sortProperty = pageable.getSort().get().findFirst().get().getProperty();

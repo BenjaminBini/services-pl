@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public abstract  class ServiceBase<REPOSITORY extends JpaRepository<ENTITY, Long>, ENTITY extends ModelBase> {
     protected REPOSITORY repository;
 
-    public Page<ENTITY> search(Pageable pageable, String keyword, String filter) {
+    public Page<ENTITY> search(Pageable pageable, String keyword, List<String> filter) {
         throw new NotImplementedException("Not implemented yet");
     }
         public List<ENTITY> getAll() {

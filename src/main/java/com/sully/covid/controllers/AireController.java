@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -46,7 +47,7 @@ public class AireController extends ControllerBase<Aire, AireRepository> {
                         @RequestParam(defaultValue = "false", required = false) String success) {
         UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
         User user = principal.getUser();
-        return super.search(model, page, sort, dir, keyword, success, user.getGest());
+        return super.search(model, page, sort, dir, keyword, success, Arrays.asList(user.getGest().split(",")));
     }
 
     @Override
