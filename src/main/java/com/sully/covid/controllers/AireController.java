@@ -19,6 +19,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class AireController extends ControllerBase<Aire, AireRepository> {
@@ -47,8 +48,12 @@ public class AireController extends ControllerBase<Aire, AireRepository> {
                         @RequestParam(defaultValue = "false", required = false) String success) {
         UserPrincipal principal = (UserPrincipal) authentication.getPrincipal();
         User user = principal.getUser();
-        return super.search(model, page, sort, dir, keyword, success,
-                user.getGest() != null && user.getGest().length() > 0 ? Arrays.asList(user.getGest().split(",")) : null);
+
+        List<String> codesGest = null;
+        if (user.getGest() != null && user.getGest().length() > 0) {
+            codesGest = Arrays.stream(user.getGest().split(",")).map(String::trim).collect(Collectors.toList());
+        }
+        return super.search(model, page, sort, dir, keyword, success, codesGest);
     }
 
     @Override
