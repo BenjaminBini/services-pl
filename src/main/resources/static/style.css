@@ -10,7 +10,11 @@
     z-index: 100;
     top: -120%;
     transform: translateX(-50%);
-    width: 260px;
+    width: 262px;
+}
+
+[x-cloak] {
+    display: none !important;
 }
 
 .tooltip {
@@ -20,8 +24,4 @@
 }
 .tooltip:hover .tooltip-text {
     visibility: visible;
-}
-
-[x-cloak] {
-    display: none !important;
 }

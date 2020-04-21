@@ -42,5 +42,5 @@ const purgeFromPug = (content) => {
           break;
       }
     }
-    return selectors;
+    return [...selectors, "x-cloak"];
   };
