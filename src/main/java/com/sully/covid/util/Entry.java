@@ -8,4 +8,8 @@ import lombok.Data;
 public class Entry {
     private final String key;
     private final String value;
+
+    public static Entry of(String key, String value) {
+        return new Entry(key, value);
+    }
 }
