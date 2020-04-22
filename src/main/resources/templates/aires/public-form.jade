@@ -26,16 +26,13 @@ block content
                         div(class="px-4 py-5 sm:p-6")
 
                             if (dep == null && aire == null)
-                                .w-full(class="md:w-1/2 lg:w-1/3 mt-3")
-                                    +select('dep', 'Département', departements, '', true, true)
+                                +select('dep', 'Département', departements, '', true, true)
                                 
                             else if (dep != null && route == null && aire == null)
-                                .w-full(class="md:w-1/2 lg:w-1/3 mt-3")
-                                    +select('route', 'Route', routes, '', true, true)
+                                +select('route', 'Route', routes, '', true, true)
 
                             else if (dep != null && route != null && aire == null)
-                                .w-full(class="md:w-1/2 lg:w-1/3 mt-3")
-                                    +select('aireId', 'Aire', aires, '', true, true)
+                                +select('aireId', 'Aire', aires, '', true, true)
 
                             else if (aire != null)
                                 +hiddenInput("aireChoisie", "true")
