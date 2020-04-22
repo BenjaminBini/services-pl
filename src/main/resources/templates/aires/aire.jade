@@ -25,7 +25,7 @@ block content
                     +textInput('nomAire', 'Nom', aire.nomAire)
                     +inlineRadio(false, true, 'statutOuvert', aire.statutOuvert, 'Ouvert', 'L\'aire est-elle actuellement ouverte ?')
                     +inlineRadio(false, false, 'concession', aire.concession, 'Concession', 'L\'aire est-elle gérée par un concessionnaire ?')
-                    +textInput('dirSca', 'Identifiant du gestionnaire', aire.dirSca)
+                    +select('dirSca', 'Identifiant du gestionnaire', codesGest, aire.dirSca, true, false)(class="mt-6")
                     +textInput('route', 'Route', aire.route)
                     +textInput('dep', 'Département (numéro)', aire.dep)
 
