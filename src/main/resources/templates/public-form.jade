@@ -1,0 +1,47 @@
+extends ./layouts/public
+
+block content
+    div
+        .bg-gray-800.pb-32
+            header.py-10
+                .max-w-7xl.mx-auto.px-4(class="sm:px-6 lg:px-8")
+                    h1.text-3xl.leading-9.font-bold.text-white
+                        | Demande de mise à jour des informations publiées
+        main.-mt-32
+            form(action="" method="POST")
+                .max-w-7xl.mx-auto.pb-12.px-4(class="sm:px-6 lg:px-8")
+                    
+                    div(class="bg-white overflow-hidden shadow rounded-lg")
+                        div(class="border-b border-gray-200 px-4 py-5 sm:px-6")
+                            h3(class="text-lg leading-6 font-medium text-gray-900") Veuillez sélectionner l'action que vous souhaitez réaliser
+                        div(class="px-4 py-5 sm:p-6")
+                            div(class="bg-gray-100 overflow-hidden rounded-lg")
+                                a(href="/public-form/aire" class="flex justify-between items-center px-4 py-5 sm:p-6")
+                                    | Correction de l'information concernant une aire de service ou de repos
+                                    svg.h-5.w-5.text-gray-400(fill="currentColor" viewbox="0 0 20 20")
+                                        path(fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd")
+
+                            div(class="mt-6 bg-gray-100 overflow-hidden rounded-lg")
+                                a(href="/public-form/ct" class="flex justify-between items-center px-4 py-5 sm:p-6")
+                                    | Correction de l'information concernant un centre technique
+                                    svg.h-5.w-5.text-gray-400(fill="currentColor" viewbox="0 0 20 20")
+                                        path(fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd")
+                            //-
+                                div(class="mt-6 bg-gray-100 overflow-hidden rounded-lg")
+                                    a(href="/public-form/ct-new" class="flex justify-between items-center px-4 py-5 sm:p-6")
+                                        | Indication d'un centre technique manquant
+                                        svg.h-5.w-5.text-gray-400(fill="currentColor" viewbox="0 0 20 20")
+                                            path(fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd")
+                            
+                            div(class="mt-6 bg-gray-100 overflow-hidden rounded-lg")
+                                a(href="/public-form/relais" class="flex justify-between items-center px-4 py-5 sm:p-6")
+                                    | Correction de l'information concernant un relais routier
+                                    svg.h-5.w-5.text-gray-400(fill="currentColor" viewbox="0 0 20 20")
+                                        path(fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd")
+                            //-
+                                div(class="mt-6 bg-gray-100 overflow-hidden rounded-lg")
+                                    a(href="/public-form/relais-new" class="flex justify-between items-center px-4 py-5 sm:p-6")
+                                        | Indication d'un relais routier manquant
+                                        svg.h-5.w-5.text-gray-400(fill="currentColor" viewbox="0 0 20 20")
+                                            path(fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd")
+                            

@@ -1,0 +1,48 @@
+extends ../layouts/public
+
+block content
+    div
+        .bg-gray-800.pb-32
+            header.py-10
+                .max-w-7xl.mx-auto.px-4(class="sm:px-6 lg:px-8")
+                    h1.text-3xl.leading-9.font-bold.text-white
+                        | Demande de mise à jour des informations publiées
+        main.-mt-32
+            form(action="" method="POST")
+                .max-w-7xl.mx-auto.pb-12.px-4(class="sm:px-6 lg:px-8")
+                    
+                    div(class="bg-white overflow-hidden shadow rounded-lg")
+                        div(class="border-b border-gray-200 px-4 py-5 sm:px-6")
+                            h3(class="text-lg leading-6 font-medium text-gray-900") 
+                                if (dep == null && ct == null)
+                                    | Veuillez choisir votre département
+                                else if (dep != null && ct == null)
+                                    | Veuillez choisir le relais routier concerné
+                                else if ct != null
+                                    | Demande concernant le relais : #{relais.nom}
+                        div(class="px-4 py-5 sm:p-6")
+
+                            if (dep == null && relais == null)
+                                .-mt-6
+                                    +select('dep', 'Département', departements, '', true, true)
+                                
+                            else if (dep != null && relais == null)
+                                .-mt-6
+                                    +select('relaisId', 'Relais routier', listeRelais, '', true, true)
+
+                            else if relais != null
+                                +hiddenInput("relaisChoisi", "true")
+                                +hiddenInput("relaisId", relaisId)
+                                .-mt-6
+                                    +inlineRadio(false, false, 'statutOuvert', relais.statutOuvert, 'Ouvert', 'Le relais routier est-il actuellement ouvert ?')
+                                +textarea("com", "Commentaire", "")
+
+                        div(class="border-t border-gray-200 px-4 py-4 sm:px-6 text-right bg-gray-50")
+                            a.inline-flex.items-center.px-4.py-2.border.border-gray-300.text-sm.leading-5.font-medium.rounded-md.text-gray-700.bg-white.transition.ease-in-out.duration-150(href="/public-form" class="hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50") Annuler
+
+                            button.ml-3.py-2.px-4.border.border-transparent.text-sm.leading-5.font-medium.rounded-md.text-white.bg-indigo-600.shadow-sm.transition.duration-150.ease-in-out(class="hover:bg-indigo-500 focus:outline-none focus:shadow-outline-blue active:bg-indigo-600") 
+                                if relais != null
+                                    | Enregistrer
+                                else
+                                    | Suivant
+                                    

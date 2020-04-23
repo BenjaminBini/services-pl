@@ -1,7 +1,9 @@
 package com.sully.covid.util;
 
 import com.sully.covid.dal.model.Aire;
+import com.sully.covid.dal.model.CentreCT;
 import com.sully.covid.dal.model.PublicFormRequest;
+import com.sully.covid.dal.model.RelaisRoutier;
 import lombok.Data;
 
 import java.text.SimpleDateFormat;
@@ -16,6 +18,28 @@ public class RequestsAggregate {
     private Map<String, Long> requestsStatus = new HashMap<>();
     private Map<String, List<String>> requestsComments = new HashMap<>();
 
+    public static RequestsAggregate fromRelais(RelaisRoutier relais) {
+        RequestsAggregate ag = new RequestsAggregate();
+        Collection<PublicFormRequest> requests = relais.getPublicFormRequests();
+
+        ag.requestsStatus.put("statutOuvertOui", requests.stream().filter(r -> r.isStatutOuvert()).count());
+        ag.requestsComments.put("statutOuvertOui", requests.stream().filter(r -> r.isStatutOuvert()).map(PublicFormRequest::getCommentForDisplay).collect(Collectors.toList()));
+        ag.requestsStatus.put("statutOuvertNon", requests.stream().filter(r -> !r.isStatutOuvert()).count());
+        ag.requestsComments.put("statutOuvertNon", requests.stream().filter(r -> !r.isStatutOuvert()).map(PublicFormRequest::getCommentForDisplay).collect(Collectors.toList()));
+        return ag;
+    }
+
+    public static RequestsAggregate fromCT(CentreCT ct) {
+        RequestsAggregate ag = new RequestsAggregate();
+        Collection<PublicFormRequest> requests = ct.getPublicFormRequests();
+
+        ag.requestsStatus.put("statutOuvertOui", requests.stream().filter(r -> r.isStatutOuvert()).count());
+        ag.requestsComments.put("statutOuvertOui", requests.stream().filter(r -> r.isStatutOuvert()).map(PublicFormRequest::getCommentForDisplay).collect(Collectors.toList()));
+        ag.requestsStatus.put("statutOuvertNon", requests.stream().filter(r -> !r.isStatutOuvert()).count());
+        ag.requestsComments.put("statutOuvertNon", requests.stream().filter(r -> !r.isStatutOuvert()).map(PublicFormRequest::getCommentForDisplay).collect(Collectors.toList()));
+        return ag;
+    }
+
     public static RequestsAggregate fromAire(Aire aire) {
         RequestsAggregate ag = new RequestsAggregate();
         Collection<PublicFormRequest> requests = aire.getPublicFormRequests();
@@ -24,7 +48,6 @@ public class RequestsAggregate {
 
         ag.requestsStatus.put("statutOuvertOui", requests.stream().filter(r -> r.isStatutOuvert()).count());
         ag.requestsComments.put("statutOuvertOui", requests.stream().filter(r -> r.isStatutOuvert()).map(PublicFormRequest::getCommentForDisplay).collect(Collectors.toList()));
-
 
         ag.requestsStatus.put("statutOuvertNon", requests.stream().filter(r -> !r.isStatutOuvert()).count());
         ag.requestsComments.put("statutOuvertNon", requests.stream().filter(r -> !r.isStatutOuvert()).map(PublicFormRequest::getCommentForDisplay).collect(Collectors.toList()));

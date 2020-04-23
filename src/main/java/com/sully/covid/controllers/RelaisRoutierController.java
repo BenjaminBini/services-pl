@@ -2,8 +2,10 @@ package com.sully.covid.controllers;
 
 import com.sully.covid.dal.model.RelaisRoutier;
 import com.sully.covid.dal.repository.RelaisRoutierRepository;
+import com.sully.covid.dal.service.PublicFormRequestService;
 import com.sully.covid.dal.service.RelaisRoutierService;
 import com.sully.covid.util.Entry;
+import com.sully.covid.util.RequestsAggregate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,8 +19,11 @@ import java.util.List;
 @Controller
 public class RelaisRoutierController extends ControllerBase<RelaisRoutier, RelaisRoutierRepository> {
 
+    private final RelaisRoutierService relaisRoutierService;
+    private final PublicFormRequestService publicFormRequestService;
+
     @Autowired
-    public RelaisRoutierController(RelaisRoutierService relaisRoutierService) {
+    public RelaisRoutierController(RelaisRoutierService relaisRoutierService1, PublicFormRequestService publicFormRequestService, RelaisRoutierService relaisRoutierService) {
         super(RelaisRoutier.class,
                 "relais/relais",
                 "relais/relais-liste",
@@ -26,6 +31,8 @@ public class RelaisRoutierController extends ControllerBase<RelaisRoutier, Relai
                 "relais",
                 List.of(new Entry("id", "id"), new Entry("nom", "nom"), new Entry("statutOuvert", "statut")),
                 List.of(new Entry("id", "Id"), new Entry("nom", "Nom"), new Entry("com", "Commentaire"), new Entry("statutOuvert", "Statut")));
+        this.relaisRoutierService = relaisRoutierService1;
+        this.publicFormRequestService = publicFormRequestService;
         this.service = relaisRoutierService;
     }
 
@@ -47,7 +54,11 @@ public class RelaisRoutierController extends ControllerBase<RelaisRoutier, Relai
     @Override
     @GetMapping("/relais/{id}")
     public String viewOne(Model model, @PathVariable long id, @RequestParam(defaultValue = "false", required = false) String success) {
-        return super.viewOne(model, id, success);
+        String view = super.viewOne(model, id, success);
+        RelaisRoutier relais = (RelaisRoutier) model.getAttribute("relais");
+        RequestsAggregate ag = RequestsAggregate.fromRelais(relais);
+        model.addAttribute("ag", ag);
+        return view;
     }
 
     @Override
@@ -66,5 +77,15 @@ public class RelaisRoutierController extends ControllerBase<RelaisRoutier, Relai
     @PostMapping("/relais/import")
     public RedirectView importCSV(@RequestParam("file") MultipartFile file, RedirectAttributes model) {
         return super.importCSV(file, model);
+    }
+
+    @GetMapping("/relais/{id}/delete-requests")
+    public RedirectView deleteRequests(@PathVariable long id, RedirectAttributes model) {
+        RelaisRoutier relais = this.service.get(id);
+        if (relais != null) {
+            relais.getPublicFormRequests().forEach(r -> this.publicFormRequestService.delete(r.getId()));
+        }
+        model.addAttribute("success", true);
+        return new RedirectView("/" + path + "/" + id);
     }
 }

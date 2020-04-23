@@ -11,6 +11,7 @@ import org.geojson.Point;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Data
 @Entity(name = "CENTRE_CT")
@@ -72,6 +73,9 @@ public class CentreCT implements ModelBase {
     @Column(name = "Lon")
     @CsvBindByName(column = "Lon")
     private String lon;
+
+    @OneToMany(mappedBy = "centreCT", fetch = FetchType.LAZY)
+    private Collection<PublicFormRequest> publicFormRequests;
 
     @Override
     public Feature toGeoJSON() {

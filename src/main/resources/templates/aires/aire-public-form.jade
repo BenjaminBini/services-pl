@@ -10,7 +10,6 @@ block content
         main.-mt-32
             form(action="" method="POST")
                 .max-w-7xl.mx-auto.pb-12.px-4(class="sm:px-6 lg:px-8")
-                    // Replace with your content
                     
                     div(class="bg-white overflow-hidden shadow rounded-lg")
                         div(class="border-b border-gray-200 px-4 py-5 sm:px-6")
@@ -26,18 +25,21 @@ block content
                         div(class="px-4 py-5 sm:p-6")
 
                             if (dep == null && aire == null)
-                                +select('dep', 'Département', departements, '', true, true)
+                                .-mt-6
+                                    +select('dep', 'Département', departements, '', true, true)
                                 
                             else if (dep != null && route == null && aire == null)
-                                +select('route', 'Route', routes, '', true, true)
+                                .-mt-6
+                                    +select('route', 'Route', routes, '', true, true)
 
                             else if (dep != null && route != null && aire == null)
-                                +select('aireId', 'Aire', aires, '', true, true)
+                                .-mt-6
+                                    +select('aireId', 'Aire', aires, '', true, true)
 
                             else if (aire != null)
                                 +hiddenInput("aireChoisie", "true")
                                 +hiddenInput("aireId", aireId)
-                                .-mt-3
+                                .-mt-6
                                     +inlineRadio(false, false, 'statutOuvert', aire.statutOuvert, 'Ouvert', 'L\'aire est-elle actuellement ouverte ?')
                                 .mt-3
                                     +inlineRadio(false, false, 'eqPlacesPl', aire.eqPlacesPl, 'Stationnement poids lourds', 'L\'aire est-elle équipée de places de stationnements poids lourds ?')
@@ -76,11 +78,11 @@ block content
                                         +textarea("com", "Commentaire", "")
 
                         div(class="border-t border-gray-200 px-4 py-4 sm:px-6 text-right bg-gray-50")
-                            if(dep != null || route != null || aire != null)
-                                a.inline-flex.items-center.px-4.py-2.border.border-gray-300.text-sm.leading-5.font-medium.rounded-md.text-gray-700.bg-white.transition.ease-in-out.duration-150(href="/public-form" class="hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50") Annuler
+                            a.inline-flex.items-center.px-4.py-2.border.border-gray-300.text-sm.leading-5.font-medium.rounded-md.text-gray-700.bg-white.transition.ease-in-out.duration-150(href="/public-form" class="hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50") Annuler
 
                             button.ml-3.py-2.px-4.border.border-transparent.text-sm.leading-5.font-medium.rounded-md.text-white.bg-indigo-600.shadow-sm.transition.duration-150.ease-in-out(class="hover:bg-indigo-500 focus:outline-none focus:shadow-outline-blue active:bg-indigo-600") 
                                 if aire != null
                                     | Enregistrer
                                 else
                                     | Suivant
+                                    

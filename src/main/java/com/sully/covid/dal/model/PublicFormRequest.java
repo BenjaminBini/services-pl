@@ -25,10 +25,26 @@ public class PublicFormRequest implements ModelBase {
     private Aire aire;
 
     @Column(name = "ID_AIRE")
-    private long aireId;
+    private Long aireId;
+
+
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "ID_RELAIS", referencedColumnName = "ID", insertable = false, updatable = false)
+    private RelaisRoutier relais;
+
+    @Column(name = "ID_RELAIS")
+    private Long relaisId;
+
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "ID_CT", referencedColumnName = "ID", insertable = false, updatable = false)
+    private CentreCT centreCT;
+
+    @Column(name = "ID_CT")
+    private Long ctId;
+
 
     /**
-     * L'aire est-elle actuellement ouverte ?
+     * Le lieu est-il actuellement ouverte ?
      * True : oui
      * False : non
      */

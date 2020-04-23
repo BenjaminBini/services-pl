@@ -10,6 +10,7 @@ import org.geojson.Point;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Data
 @Entity
@@ -63,6 +64,9 @@ public class RelaisRoutier implements ModelBase {
     @Column(name = "COM", length = 1000)
     @CsvBindByName(column = "COM")
     private String com;
+
+    @OneToMany(mappedBy = "relais", fetch = FetchType.LAZY)
+    private Collection<PublicFormRequest> publicFormRequests;
 
     @Override
     public Feature toGeoJSON() {

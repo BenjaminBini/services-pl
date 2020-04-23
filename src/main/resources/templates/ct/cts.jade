@@ -3,7 +3,14 @@ extends ../layouts/list-layout
 block tableView
     +table('Centres de contrôle technique', page, sortOptions, sort, dir, keyword, columns)
         each ct, index in ctListe
-            tr(class=index % 2 == 0 ? 'bg-white' : 'bg-gray-50')
+            - var requestsCount = ct.publicFormRequests.size()
+            if requestsCount > 0
+                - var cssClass = index % 2 == 0 ? 'bg-red-100' : 'bg-red-200'
+                - var badgeCssClass = index % 2 == 0 ? 'bg-red-200 text-red-800' : 'bg-red-100 text-red-800';
+            else
+                - var cssClass = index % 2 == 0 ? 'bg-white' : 'bg-gray-50'
+                - var badgeCssClass = 'bg-red-200 text-red-800';
+            tr(class=cssClass)
                 td.px-6.py-4.whitespace-no-wrap.text-sm.leading-5.text-gray-500
                     | #{ct.id}
                 td.px-6.py-4.text-sm.leading-5.font-medium.text-gray-900
@@ -15,8 +22,14 @@ block tableView
                         .inline-flex.items-center.rounded-md.text-sm.font-medium.leading-5.bg-green-100.text-green-800(class="px-2.5 py-0.5")
                             | Ouvert
                     else
-                        .inline-flex.items-center.rounded-md.text-sm.font-medium.leading-5.bg-red-100.text-red-800(class="px-2.5 py-0.5")
+                        .inline-flex.items-center.rounded-md.text-sm.font-medium.leading-5(class="px-2.5 py-0.5 #{badgeCssClass}")
                             | Fermé
+                    if requestsCount > 0
+                        .inline-flex.ml-3.items-center.rounded-md.text-sm.font-medium.leading-5(class="px-2.5 py-0.5 #{badgeCssClass}")
+                            if requestsCount == 1
+                                | 1 demande
+                            else 
+                                | #{requestsCount} demandes
                 td.px-6.py-4.whitespace-no-wrap.text-right.text-sm.leading-5.font-medium
                     a.text-indigo-600(href='/ct/#{ct.id}' class="hover:text-indigo-900 focus:outline-none focus:underline") Modifier
                     

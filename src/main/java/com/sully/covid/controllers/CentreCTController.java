@@ -3,7 +3,9 @@ package com.sully.covid.controllers;
 import com.sully.covid.dal.model.CentreCT;
 import com.sully.covid.dal.repository.CentreCTRepository;
 import com.sully.covid.dal.service.CentreCTService;
+import com.sully.covid.dal.service.PublicFormRequestService;
 import com.sully.covid.util.Entry;
+import com.sully.covid.util.RequestsAggregate;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
@@ -25,9 +27,10 @@ import java.util.stream.Collectors;
 public class CentreCTController extends ControllerBase<CentreCT, CentreCTRepository> {
 
     private CentreCTService centreCTService;
+    private final PublicFormRequestService publicFormRequestService;
 
     @Autowired
-    public CentreCTController(CentreCTService centreCTService) {
+    public CentreCTController(PublicFormRequestService publicFormRequestService, CentreCTService centreCTService) {
         super(CentreCT.class,
                 "ct/ct",
                 "ct/cts",
@@ -35,6 +38,7 @@ public class CentreCTController extends ControllerBase<CentreCT, CentreCTReposit
                 "ct",
                 List.of(new Entry("id", "id"), new Entry("nom", "nom"), new Entry("commune", "Commune"), new Entry("statutOuvert", "statut")),
                 List.of(new Entry("id", "Id"), new Entry("nom", "Nom"), new Entry("commune", "Commune"), new Entry("statutOuvert", "Statut")));
+        this.publicFormRequestService = publicFormRequestService;
         this.service = centreCTService;
         this.centreCTService = centreCTService;
     }
@@ -62,7 +66,11 @@ public class CentreCTController extends ControllerBase<CentreCT, CentreCTReposit
     @Override
     @GetMapping("/ct/{id}")
     public String viewOne(Model model, @PathVariable long id, @RequestParam(defaultValue = "false", required = false) String success) {
-        return super.viewOne(model, id, success);
+        String view = super.viewOne(model, id, success);
+        CentreCT ct = (CentreCT) model.getAttribute("ct");
+        RequestsAggregate ag = RequestsAggregate.fromCT(ct);
+        model.addAttribute("ag", ag);
+        return view;
     }
 
     @Override
@@ -147,6 +155,16 @@ public class CentreCTController extends ControllerBase<CentreCT, CentreCTReposit
             }
         }
         return new RedirectView("/" + path);
+    }
+
+    @GetMapping("/ct/{id}/delete-requests")
+    public RedirectView deleteRequests(@PathVariable long id, RedirectAttributes model) {
+        CentreCT ct = this.service.get(id);
+        if (ct != null) {
+            ct.getPublicFormRequests().forEach(r -> this.publicFormRequestService.delete(r.getId()));
+        }
+        model.addAttribute("success", true);
+        return new RedirectView("/" + path + "/" + id);
     }
 }
 
