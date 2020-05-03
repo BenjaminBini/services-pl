@@ -47,7 +47,7 @@ public class PublicFormController {
     @GetMapping("/public-form")
     public String publicForm(Model model, @RequestParam(defaultValue = "false", required = false) String success) {
         model.addAttribute("success", success);
-        return "/public-form";
+        return "public-form";
     }
 
     @GetMapping("/public-form/relais")
