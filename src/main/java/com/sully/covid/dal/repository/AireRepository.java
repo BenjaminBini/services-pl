@@ -14,11 +14,11 @@ public interface AireRepository extends JpaRepository<Aire, Long> {
 
     @Query(value = "SELECT count(p.ID) as requestsCount, a.* FROM AIRES a " +
             "LEFT JOIN PUBLIC_FORM_REQUEST p ON p.ID_AIRE = a.ID " +
-            "WHERE a.NOM_AIRE like %?1% AND DIR_SCA IN ?2 " +
+            "WHERE (a.NOM_AIRE LIKE %?1% OR a.TYPE_AIRE LIKE %?1%) AND DIR_SCA IN ?2 " +
             "GROUP BY a.id",
             countQuery = "SELECT COUNT(*) FROM AIRES a " +
                     "LEFT JOIN PUBLIC_FORM_REQUEST p ON p.ID_AIRE = a.ID " +
-                    "WHERE a.NOM_AIRE like %?1% AND DIR_SCA IN ?2 " +
+                    "WHERE (a.NOM_AIRE LIKE %?1% OR a.TYPE_AIRE LIKE %?1%) AND DIR_SCA IN ?2 " +
                     "GROUP BY a.id",
             nativeQuery = true)
     Page<Aire> search(String nomAire, List<String> dirSca, Pageable pageable);
@@ -26,11 +26,11 @@ public interface AireRepository extends JpaRepository<Aire, Long> {
 
     @Query(value = "SELECT count(p.ID) as requestsCount, a.* FROM AIRES a " +
             "LEFT JOIN PUBLIC_FORM_REQUEST p ON p.ID_AIRE = a.ID " +
-            "WHERE a.NOM_AIRE like %?1% " +
+            "WHERE (a.NOM_AIRE LIKE %?1% OR a.TYPE_AIRE LIKE %?1%) " +
             "GROUP BY a.id",
             countQuery = "SELECT COUNT(*) FROM AIRES a " +
                     "LEFT JOIN PUBLIC_FORM_REQUEST p ON p.ID_AIRE = a.ID " +
-                    "WHERE a.NOM_AIRE like %?1% " +
+                    "WHERE (a.NOM_AIRE LIKE %?1% OR a.TYPE_AIRE LIKE %?1%) " +
                     "GROUP BY a.id",
             nativeQuery = true)
     Page<Aire> search(String nomAire, Pageable pageable);

@@ -33,8 +33,8 @@ public class AireController extends ControllerBase<Aire, AireRepository> {
                 "aires/aires",
                 "aire",
                 "aire",
-                List.of(new Entry("id", "id"), new Entry("nomAire", "nom"), new Entry("statutOuvert", "statut")),
-                List.of(new Entry("id", "Id"), new Entry("nomAire", "Nom"), new Entry("com", "Commentaire"), new Entry("statutOuvert", "Statut")));
+                List.of(new Entry("id", "id"), new Entry("nomAire", "nom"), new Entry("typeAire", "type"), new Entry("statutOuvert", "statut")),
+                List.of(new Entry("id", "Id"), new Entry("nomAire", "Nom"), new Entry("typeAire", "Type"), new Entry("com", "Commentaire"), new Entry("statutOuvert", "Statut")));
         this.service = aireService;
         this.publicFormRequestService = publicFormRequestService;
     }

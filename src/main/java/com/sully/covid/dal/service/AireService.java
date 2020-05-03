@@ -30,6 +30,9 @@ public class AireService extends ServiceBase<AireRepository, Aire> {
             case "nomAire":
                 sortColumn = "NOM_AIRE";
                 break;
+            case "typeAire":
+                sortColumn = "TYPE_AIRE";
+                break;
             case "statutOuvert":
                 sortColumn = "STATUT_OUVERT";
                 break;
