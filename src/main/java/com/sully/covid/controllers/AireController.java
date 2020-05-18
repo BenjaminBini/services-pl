@@ -26,6 +26,37 @@ public class AireController extends ControllerBase<Aire, AireRepository> {
 
     private final PublicFormRequestService publicFormRequestService;
 
+    private final List<Entry> codesGest = List.of(
+            Entry.of("ADELAC", "ADELAC"),
+            Entry.of("ALBEA", "ALBEA"),
+            Entry.of("ALIAE", "ALIAE"),
+            Entry.of("ALICORNE", "ALICORNE"),
+            Entry.of("ALIENOR", "ALIENOR"),
+            Entry.of("ALIS", "ALIS"),
+            Entry.of("APRR", "APRR"),
+            Entry.of("ARCOUR", "ARCOUR"),
+            Entry.of("AREA", "AREA"),
+            Entry.of("ASF", "ASF"),
+            Entry.of("ATLANDES", "ATLANDES"),
+            Entry.of("ATMB", "ATMB"),
+            Entry.of("COFIROUTE", "COFIROUTE"),
+            Entry.of("DIR A", "DIR A"),
+            Entry.of("DIR CE", "DIR CE"),
+            Entry.of("DIR CO", "DIR CO"),
+            Entry.of("DIR Est", "DIR Est"),
+            Entry.of("DIR IF", "DIR IF"),
+            Entry.of("DIR MC", "DIR MC"),
+            Entry.of("DIR MED", "DIR MED"),
+            Entry.of("DIR N", "DIR N"),
+            Entry.of("DIR NO", "DIR NO"),
+            Entry.of("DIR O", "DIR O"),
+            Entry.of("DIR SO", "DIR SO"),
+            Entry.of("ESCOTA", "ESCOTA"),
+            Entry.of("SANEF", "SANEF"),
+            Entry.of("SAPN", "SAPN"),
+            Entry.of("SFTRF", "SFTRF")
+    );
+
     @Autowired
     public AireController(AireService aireService, PublicFormRequestService publicFormRequestService) {
         super(Aire.class,
@@ -59,7 +90,9 @@ public class AireController extends ControllerBase<Aire, AireRepository> {
     @Override
     @GetMapping("/aire/new")
     public String newOne(Model model) {
-        return super.newOne(model);
+        String view = super.newOne(model);
+        model.addAttribute("codesGest", codesGest);
+        return view;
     }
 
     @Override
@@ -69,37 +102,6 @@ public class AireController extends ControllerBase<Aire, AireRepository> {
         Aire aire = (Aire) model.getAttribute("aire");
         RequestsAggregate ag = RequestsAggregate.fromAire(aire);
         model.addAttribute("ag", ag);
-
-        List<Entry> codesGest = List.of(
-            Entry.of("ADELAC", "ADELAC"),
-            Entry.of("ALBEA", "ALBEA"),
-            Entry.of("ALIAE", "ALIAE"),
-            Entry.of("ALICORNE", "ALICORNE"),
-            Entry.of("ALIENOR", "ALIENOR"),
-            Entry.of("ALIS", "ALIS"),
-            Entry.of("APRR", "APRR"),
-            Entry.of("ARCOUR", "ARCOUR"),
-            Entry.of("AREA", "AREA"),
-            Entry.of("ASF", "ASF"),
-            Entry.of("ATLANDES", "ATLANDES"),
-            Entry.of("ATMB", "ATMB"),
-            Entry.of("COFIROUTE", "COFIROUTE"),
-            Entry.of("DIR A", "DIR A"),
-            Entry.of("DIR CE", "DIR CE"),
-            Entry.of("DIR CO", "DIR CO"),
-            Entry.of("DIR Est", "DIR Est"),
-            Entry.of("DIR IF", "DIR IF"),
-            Entry.of("DIR MC", "DIR MC"),
-            Entry.of("DIR MED", "DIR MED"),
-            Entry.of("DIR N", "DIR N"),
-            Entry.of("DIR NO", "DIR NO"),
-            Entry.of("DIR O", "DIR O"),
-            Entry.of("DIR SO", "DIR SO"),
-            Entry.of("ESCOTA", "ESCOTA"),
-            Entry.of("SANEF", "SANEF"),
-            Entry.of("SAPN", "SAPN"),
-            Entry.of("SFTRF", "SFTRF")
-        );
         model.addAttribute("codesGest", codesGest);
         return view;
     }

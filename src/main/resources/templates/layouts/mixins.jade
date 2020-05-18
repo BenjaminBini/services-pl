@@ -67,7 +67,7 @@ mixin select(name, label, options, selectedValue, emptyOption, required)
                 if (emptyOption)
                     option
                 each option in options
-                    +selectOption(option.key, selectedValue.equals(option.key), option.value)
+                    +selectOption(option.key, option.key.equals(selectedValue), option.value)
 
 mixin selectOption(value, isSelected, label)
     option(value=value selected=isSelected) #{label}
